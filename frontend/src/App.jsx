@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -205,6 +205,7 @@ function FocusSelectedProperty({ position }) {
 
 function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, onToggleCompare }) {
   const [spaceProperty, setSpaceProperty] = useState(null)
+  const [detailProperty, setDetailProperty] = useState(null)
   const markerPositions = properties.map((property, index) => {
     const earlierAtSameAddress = properties
       .slice(0, index)
@@ -282,6 +283,13 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
                 <small>{property.address}</small>
                 <button
                   type="button"
+                  className="slider-compare"
+                  onClick={(event) => { event.stopPropagation(); setDetailProperty(property) }}
+                >
+                  상세정보 · 실거주비용
+                </button>
+                <button
+                  type="button"
                   className={inCompare ? 'slider-compare selected' : 'slider-compare'}
                   onClick={(event) => { event.stopPropagation(); onToggleCompare(property) }}
                 >
@@ -303,6 +311,46 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
       <button type="button" className="map-slide-arrow next" onClick={() => selectAt((selectedIndex + 1) % properties.length)} aria-label="다음 매물">›</button>
       <span className="map-slider-count">{selectedIndex + 1} / {properties.length}</span>
       {spaceProperty && <SpaceModal property={spaceProperty} onClose={() => setSpaceProperty(null)} />}
+      {detailProperty && <MapPropertyDetails property={detailProperty} onClose={() => setDetailProperty(null)} />}
+    </div>
+  )
+}
+
+function MapPropertyDetails({ property, onClose }) {
+  const closeButton = useRef(null)
+  useEffect(() => {
+    const previousFocus = document.activeElement
+    closeButton.current?.focus()
+    return () => previousFocus?.focus()
+  }, [])
+
+  const handleKeys = (event) => {
+    if (event.key === 'Escape') onClose()
+    if (event.key !== 'Tab') return
+    const controls = Array.from(event.currentTarget.querySelectorAll('button, input:not(:disabled), summary'))
+    const first = controls[0], last = controls[controls.length - 1]
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus() }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus() }
+  }
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <section className="floor-plan-modal map-detail-modal" role="dialog" aria-modal="true" aria-labelledby="map-detail-title" onClick={event => event.stopPropagation()} onKeyDown={handleKeys}>
+        <button ref={closeButton} type="button" className="modal-close" aria-label="상세정보 닫기" onClick={onClose}>×</button>
+        <span className="badge">상세정보</span>
+        <h2 id="map-detail-title">{property.name}</h2>
+        <p className="property-description">{property.address}</p>
+        <div className="facts">
+          <span>{property.transaction_type} · 보증금 {property.deposit}만 원</span>
+          <span>전용면적 {property.area}㎡</span>
+          <span>학교까지 {property.walk_time}분</span>
+          {property.floor && <span>{property.floor}</span>}
+          {property.room_type && <span>{property.room_type}</span>}
+        </div>
+        {property.description && <p className="property-description">{property.description}</p>}
+        <div className="tags">{property.options?.map(option => <span key={option}>{option}</span>)}</div>
+        <LivingCost key={property.id} property={property} />
+      </section>
     </div>
   )
 }
