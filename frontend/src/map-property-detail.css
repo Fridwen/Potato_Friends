@@ -261,14 +261,22 @@
 .map-card-actions .slider-space-button,
 .map-card-actions .slider-detail-button {
   width: 100%;
+  max-width: 100%;
   min-width: 0;
   margin: 0;
-  padding: 7px 6px;
+  padding: 7px 5px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1.25;
+}
+
+/* Only the real button text should be visible. */
+.map-card-actions .slider-space-button::before,
+.map-card-actions .slider-space-button::after {
+  content: none !important;
+  display: none !important;
 }
 
 .slider-detail-button {
@@ -323,7 +331,7 @@
   .map-card-actions .slider-compare,
   .map-card-actions .slider-space-button,
   .map-card-actions .slider-detail-button {
-    padding: 7px 4px;
-    font-size: 10px;
+    padding: 7px 3px;
+    font-size: 9px;
   }
 }
