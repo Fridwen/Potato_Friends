@@ -93,18 +93,6 @@ Viewliet에서 내려받은 JSON을 Roomio에 저장해 매물 상세 화면에�
 
 ---
 
-## 기술 구성
-
-| 영역 | 기술 |
-|---|---|
-| Roomio Frontend | React, Vite, React Leaflet, Leaflet, Three.js |
-| Roomio Backend | FastAPI, Python, Uvicorn |
-| Viewliet | Next.js App Router, React, TypeScript, Three.js, Zod |
-| AI | OpenAI Responses API, Structured Outputs |
-| Deployment | Vercel(Roomio), Render(Viewliet) |
-
----
-
 ## 프로젝트 구조
 
 ```text
