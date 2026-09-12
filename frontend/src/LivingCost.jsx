@@ -1,13 +1,18 @@
-import { useState } from 'react'
-import { calculateLivingCost, won } from './livingCost'
+import { useId, useState } from 'react'
+import { calculateLivingCost, calculateStayCost, won } from './livingCost'
 import './living-cost.css'
 
 export default function LivingCost({ property }) {
   const [useTransport, setUseTransport] = useState(false)
   const [fare, setFare] = useState('3000')
   const [days, setDays] = useState('30')
+  const [months, setMonths] = useState('12')
+  const stayHelpId = useId()
   const cost = calculateLivingCost(property, useTransport, fare.trim() === '' ? null : Number(fare), days.trim() === '' ? null : Number(days))
   const unknown = cost.utilities.some(item => typeof item.included !== 'boolean')
+  const monthCount = months.trim() === '' ? null : Number(months)
+  const validMonths = Number.isSafeInteger(monthCount) && monthCount >= 1
+  const stayTotal = calculateStayCost(cost.total, monthCount)
   return (
     <section className="living-cost" aria-label={`${property.name} 실거주비용`}>
       <div className="living-heading"><h3>실거주비용</h3><span>예시 견적</span></div>
@@ -33,6 +38,20 @@ export default function LivingCost({ property }) {
         <small>{!useTransport ? '교통비가 총 비용에서 제외됩니다.' : cost.transport === null ? '왕복비용과 이용 일수(1~31일)를 확인해 주세요.' : '교통비가 총 비용에 포함됩니다.'}</small>
       </div>
       <div className="living-total" aria-live="polite" aria-atomic="true"><div><strong>한 달 예상 총 비용</strong><small>월세 포함 · 교통비 {useTransport ? '포함' : '제외'}</small></div><output>{won(cost.total)}</output></div>
+      <section className="living-stay" aria-label="거주 기간별 예상 비용">
+        <div className="living-stay-entry">
+          <h4>얼마나 거주할 예정인가요?</h4>
+          <label>거주 기간 <input type="number" min="1" step="1" value={months} onChange={event => setMonths(event.target.value)} aria-invalid={!validMonths} aria-describedby={stayHelpId} /> 개월</label>
+        </div>
+        <div className="living-stay-result" aria-live="polite" aria-atomic="true">
+          <div><strong>{validMonths ? `${monthCount.toLocaleString('ko-KR')}개월 예상 총 비용` : '거주 기간 예상 총 비용'}</strong>
+            <small>{validMonths && cost.total !== null ? `월 ${won(cost.total)} × ${monthCount.toLocaleString('ko-KR')}개월` : '월 비용과 거주 기간을 확인해 주세요.'}</small>
+          </div>
+          <output>{won(stayTotal)}</output>
+        </div>
+        <small id={stayHelpId}>{!validMonths ? '1개월 이상의 유효한 정수를 입력해 주세요.' : cost.total !== null && stayTotal === null ? '계산 가능한 범위의 거주 기간을 입력해 주세요.' : '거주 기간을 개월 단위로 입력해 주세요.'}</small>
+      </section>
+      <p className="living-note">현재 한 달 예상 비용이 매월 동일하다고 가정한 금액입니다. 보증금·중개보수·이사비 등 일회성 비용은 제외하며, 실제 비용은 계절과 사용량에 따라 달라질 수 있습니다.</p>
       <details><summary>항목별 계산 방법 자세히 보기</summary>
         <p>공과금은 <strong>예시 사용량과 단가를 기준으로 계산한 예상 비용</strong>입니다. 실제 평균 사용량이나 공식 요금을 반영한 금액은 아니며, 100원 단위로 반올림해 표시합니다.</p>
         <ul>

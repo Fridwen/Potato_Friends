@@ -32,3 +32,13 @@
 .living-note { font-size:11px; color:#786641; line-height:1.7; }
 .living-sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
 @media(pointer:coarse) { .living-transport label { min-height:44px; } }
+
+.living-stay { margin-top:16px; padding:18px; border:1px solid var(--line); border-radius:14px; background:var(--surface-muted); }
+.living-stay-entry, .living-stay-result { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; }
+.living-stay h4 { margin:0; font-size:16px; }
+.living-stay label { display:flex; align-items:center; gap:8px; font-size:13px; }
+.living-stay input { width:82px; min-height:44px; padding:8px; border:1px solid var(--line); border-radius:9px; background:var(--surface); color:var(--ink); font:inherit; font-size:16px; text-align:center; }
+.living-stay-result { margin-top:18px; padding-top:18px; border-top:1px solid var(--line); }
+.living-stay-result strong { font-size:14px; }
+.living-stay small { display:block; margin-top:8px; font-size:12px; line-height:1.6; color:var(--muted); }
+.living-stay output { font-size:27px; font-weight:900; color:var(--accent-ink); font-variant-numeric:tabular-nums; overflow-wrap:anywhere; max-width:100%; }

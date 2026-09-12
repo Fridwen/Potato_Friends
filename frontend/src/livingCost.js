@@ -11,6 +11,12 @@ export const UTILITY_ITEMS = [
 ]
 const validNumber = value => typeof value === 'number' && Number.isFinite(value) && value >= 0
 export const won = value => value === null ? '확인 필요' : `${value.toLocaleString('ko-KR')}원`
+export function calculateStayCost(monthlyTotal, months) {
+  if (!Number.isSafeInteger(monthlyTotal) || monthlyTotal < 0 || !Number.isSafeInteger(months) || months < 1) return null
+  const total = monthlyTotal * months
+  return Number.isSafeInteger(total) ? total : null
+}
+
 export function calculateLivingCost(property, useTransport = false, roundTripFare = 3000, transportDays = 30) {
   const area = validNumber(property.area) && property.area > 0 ? property.area : null
   const rent = property.transaction_type === '전세' ? 0 : validNumber(property.rent) ? Math.round(property.rent * 10000) : null
