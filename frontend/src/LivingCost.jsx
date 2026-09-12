@@ -33,7 +33,7 @@ export default function LivingCost({ property }) {
       <div className="living-total" aria-live="polite" aria-atomic="true"><div><strong>한 달 예상 총 비용</strong><small>월세 포함 · 교통비 {useTransport ? '포함' : '제외'}</small></div><output>{won(cost.total)}</output></div>
       <details><summary>어떻게 계산했나요?</summary>
         <p>공과금은 검증된 평균이나 공식 요금이 아닌 예시 사용량·단가로 계산하고, 100원 단위로 반올림합니다.</p>
-        <ul><li>전기: (100 + 전용면적 × 2)kWh × 200원</li><li>취사용 가스: 3㎥ × 1,000원</li><li>난방: 전용면적 × 3kWh × 100원</li><li>온수: 2㎥ × 4,000원</li><li>수도: 5㎥ × 1,000원</li></ul>
+        <ul><li>전기: (100 + 전용면적 × 2)kWh × 200원</li><li>취사용 가스: 3㎥ × 1,000원</li><li>난방: 전용면적 × 3kWh × 100원</li><li>온수: 2㎥ × 4,000원</li><li>수도: 5㎥ × 1,000원</li><li>인터넷: 월 20,000원</li></ul>
         <p>관리비 포함으로 등록된 항목은 자동으로 0원 처리합니다. 가스는 취사용만 가정하며, 실제 난방·온수·수도 청구 범위에 맞춘 중복 검증과 계절·지역 요금 반영은 아직 적용되지 않았습니다.</p>
         {property.transaction_type === '전세' && <p>전세 보증금과 대출 이자는 이 합계에 포함되지 않습니다.</p>}
       </details>

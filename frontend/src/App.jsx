@@ -137,12 +137,8 @@ function FocusSelectedProperty({ position }) {
 function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, onToggleCompare }) {
   const [spaceProperty, setSpaceProperty] = useState(null)
   const [detailProperty, setDetailProperty] = useState(null)
-<<<<<<< HEAD
   const ignoreSliderScroll = useRef(false)
   const releaseScrollTimer = useRef(null)
-
-=======
->>>>>>> color
   const markerPositions = properties.map((property, index) => {
     const earlierAtSameAddress = properties
       .slice(0, index)
@@ -259,8 +255,6 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
                 </strong>
                 <p>{property.area}㎡ · 학교 {property.walk_time}분 · {property.room_type}</p>
                 <small>{property.address}</small>
-<<<<<<< HEAD
-
                 <div className="map-card-actions">
                   <button
                     type="button"
@@ -294,30 +288,6 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
                     {has3D ? '3D 공간 보기' : '3D 구현 예정'}
                   </button>
                 </div>
-=======
-                <button
-                  type="button"
-                  className="slider-compare"
-                  onClick={(event) => { event.stopPropagation(); setDetailProperty(property) }}
-                >
-                  상세정보 · 실거주비용
-                </button>
-                <button
-                  type="button"
-                  className={inCompare ? 'slider-compare selected' : 'slider-compare'}
-                  onClick={(event) => { event.stopPropagation(); onToggleCompare(property) }}
-                >
-                  {inCompare ? '비교함에서 빼기' : '비교함에 담기'}
-                </button>
-                <button
-                  type="button"
-                  className="slider-space-button"
-                  disabled={property.id !== 1}
-                  onClick={(event) => { event.stopPropagation(); if (property.id === 1) setSpaceProperty(property) }}
-                >
-                  {property.id === 1 ? '평면도 · 3D 보기' : '3D 구현 예정'}
-                </button>
->>>>>>> color
               </div>
             </article>
           )

@@ -7,6 +7,7 @@ export const UTILITY_ITEMS = [
   { key: 'heating', label: '난방요금', usage: a => a * 3, rate: 100, unit: 'kWh', basis: '전용면적 기준' },
   { key: 'hotWater', label: '온수', usage: () => 2, rate: 4000, unit: '㎥', basis: '1인 가구' },
   { key: 'water', label: '수도세', usage: () => 5, rate: 1000, unit: '㎥', basis: '1인 가구' },
+  { key: 'internet', label: '인터넷', usage: () => 1, rate: 20000, unit: '회선', basis: '월 정액 예시' },
 ]
 const validNumber = value => typeof value === 'number' && Number.isFinite(value) && value >= 0
 export const won = value => value === null ? '확인 필요' : `${value.toLocaleString('ko-KR')}원`

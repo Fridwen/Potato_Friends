@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import LivingCost from './LivingCost.jsx'
 import './map-property-detail.css'
 
 const THREE_D_PROPERTY_IDS = new Set([1, 10])
@@ -115,6 +116,8 @@ export default function MapPropertyDetailModal({ property, onClose, inCompare, o
           <div className="map-detail-options">
             {(property.options || []).map((option) => <span key={option}>{option}</span>)}
           </div>
+
+          <LivingCost property={property} />
 
           <div className="map-detail-actions">
             <button type="button" className={inCompare ? 'selected' : ''} onClick={() => onToggleCompare(property)}>
