@@ -3,7 +3,11 @@ import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import SpaceModal from './space/SpaceModal'
+<<<<<<< HEAD
 import './recommend-map-actions.css'
+=======
+import Hero from './Hero'
+>>>>>>> color
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
 
@@ -642,13 +646,7 @@ function App() {
 
   return (
     <div className="page">
-      <header className="hero">
-        <span className="badge">자취방 한눈에 비교하기 🔍</span>
-        <h1>지금, 나에게 딱 맞는<br />자취방 찾기!</h1>
-        <p>
-          예산부터 위치, 방 크기까지 한눈에 비교하고 마음에 드는 자취방을 찾아보세요.
-        </p>
-      </header>
+      <Hero />
 
       <nav className="main-tabs" aria-label="매물 보기 방식">
         <button
@@ -656,14 +654,16 @@ function App() {
           className={activeTab === 'recommend' ? 'active' : ''}
           onClick={() => setActiveTab('recommend')}
         >
-          맞춤 추천
+          <span className="main-tab-caption">내 조건에 맞는</span>{' '}
+          <span className="main-tab-title">자취방 추천</span>
         </button>
         <button
           type="button"
           className={activeTab === 'explore' ? 'active' : ''}
           onClick={() => setActiveTab('explore')}
         >
-          전체 매물 · 지도
+          <span className="main-tab-caption">한눈에 보는</span>{' '}
+          <span className="main-tab-title">매물 지도</span>
         </button>
       </nav>
 
