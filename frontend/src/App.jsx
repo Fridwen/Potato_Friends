@@ -137,9 +137,12 @@ function FocusSelectedProperty({ position }) {
 function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, onToggleCompare }) {
   const [spaceProperty, setSpaceProperty] = useState(null)
   const [detailProperty, setDetailProperty] = useState(null)
+<<<<<<< HEAD
   const ignoreSliderScroll = useRef(false)
   const releaseScrollTimer = useRef(null)
 
+=======
+>>>>>>> color
   const markerPositions = properties.map((property, index) => {
     const earlierAtSameAddress = properties
       .slice(0, index)
@@ -256,6 +259,7 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
                 </strong>
                 <p>{property.area}㎡ · 학교 {property.walk_time}분 · {property.room_type}</p>
                 <small>{property.address}</small>
+<<<<<<< HEAD
 
                 <div className="map-card-actions">
                   <button
@@ -290,6 +294,30 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
                     {has3D ? '3D 공간 보기' : '3D 구현 예정'}
                   </button>
                 </div>
+=======
+                <button
+                  type="button"
+                  className="slider-compare"
+                  onClick={(event) => { event.stopPropagation(); setDetailProperty(property) }}
+                >
+                  상세정보 · 실거주비용
+                </button>
+                <button
+                  type="button"
+                  className={inCompare ? 'slider-compare selected' : 'slider-compare'}
+                  onClick={(event) => { event.stopPropagation(); onToggleCompare(property) }}
+                >
+                  {inCompare ? '비교함에서 빼기' : '비교함에 담기'}
+                </button>
+                <button
+                  type="button"
+                  className="slider-space-button"
+                  disabled={property.id !== 1}
+                  onClick={(event) => { event.stopPropagation(); if (property.id === 1) setSpaceProperty(property) }}
+                >
+                  {property.id === 1 ? '평면도 · 3D 보기' : '3D 구현 예정'}
+                </button>
+>>>>>>> color
               </div>
             </article>
           )
@@ -310,6 +338,46 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
       )}
 
       {spaceProperty && <SpaceModal property={spaceProperty} onClose={() => setSpaceProperty(null)} />}
+      {detailProperty && <MapPropertyDetails property={detailProperty} onClose={() => setDetailProperty(null)} />}
+    </div>
+  )
+}
+
+function MapPropertyDetails({ property, onClose }) {
+  const closeButton = useRef(null)
+  useEffect(() => {
+    const previousFocus = document.activeElement
+    closeButton.current?.focus()
+    return () => previousFocus?.focus()
+  }, [])
+
+  const handleKeys = (event) => {
+    if (event.key === 'Escape') onClose()
+    if (event.key !== 'Tab') return
+    const controls = Array.from(event.currentTarget.querySelectorAll('button, input:not(:disabled), summary'))
+    const first = controls[0], last = controls[controls.length - 1]
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus() }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus() }
+  }
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <section className="floor-plan-modal map-detail-modal" role="dialog" aria-modal="true" aria-labelledby="map-detail-title" onClick={event => event.stopPropagation()} onKeyDown={handleKeys}>
+        <button ref={closeButton} type="button" className="modal-close" aria-label="상세정보 닫기" onClick={onClose}>×</button>
+        <span className="badge">상세정보</span>
+        <h2 id="map-detail-title">{property.name}</h2>
+        <p className="property-description">{property.address}</p>
+        <div className="facts">
+          <span>{property.transaction_type} · 보증금 {property.deposit}만 원</span>
+          <span>전용면적 {property.area}㎡</span>
+          <span>학교까지 {property.walk_time}분</span>
+          {property.floor && <span>{property.floor}</span>}
+          {property.room_type && <span>{property.room_type}</span>}
+        </div>
+        {property.description && <p className="property-description">{property.description}</p>}
+        <div className="tags">{property.options?.map(option => <span key={option}>{option}</span>)}</div>
+        <LivingCost key={property.id} property={property} />
+      </section>
     </div>
   )
 }
