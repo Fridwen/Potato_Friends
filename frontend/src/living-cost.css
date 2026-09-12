@@ -13,6 +13,10 @@
 .living-cost tr > :last-child { text-align:right; font-weight:800; white-space:nowrap; font-variant-numeric:tabular-nums; }
 .living-cost th small { display:block; font-size:11px; color:var(--muted); font-weight:400; line-height:1.6; margin-top:4px; }
 .living-cost td.living-included { color:var(--accent-ink); }
+.living-management-detail { margin-top:14px; padding:14px; border:1px solid var(--line); border-radius:12px; background:var(--surface-muted); font-size:12px; line-height:1.65; }
+.living-management-detail > strong { display:block; margin-bottom:6px; font-size:13px; }
+.living-management-detail p { margin:4px 0; color:var(--muted); }
+.living-management-detail b { display:inline-block; min-width:88px; color:var(--ink); }
 .living-transport { background:var(--surface-muted); border-radius:12px; padding:14px; margin-top:18px; }
 .living-transport > div { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
 .living-transport label { display:flex; align-items:center; gap:7px; font-size:13px; }

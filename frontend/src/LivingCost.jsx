@@ -7,6 +7,8 @@ export default function LivingCost({ property }) {
   const [fare, setFare] = useState('3000')
   const cost = calculateLivingCost(property, useTransport, fare.trim() === '' ? null : Number(fare))
   const unknown = cost.utilities.some(item => typeof item.included !== 'boolean')
+  const included = Array.isArray(property.maintenance_included) ? property.maintenance_included : []
+  const excluded = Array.isArray(property.maintenance_excluded) ? property.maintenance_excluded : []
   return (
     <section className="living-cost" aria-label={`${property.name} 실거주비용`}>
       <div className="living-heading"><h3>실거주비용</h3><span>예시 견적</span></div>
@@ -17,7 +19,7 @@ export default function LivingCost({ property }) {
         <thead><tr><th scope="col">항목 / 산정 기준</th><th scope="col">매물 정보</th><th scope="col">월 비용</th></tr></thead>
         <tbody>
           <tr><th scope="row">월세<small>{property.transaction_type === '전세' ? '전세 · 월세 없음' : '매물 등록 금액'}</small></th><td>고정 비용</td><td>{won(cost.rent)}</td></tr>
-          <tr><th scope="row">관리비<small>매물 등록 금액</small></th><td>고정 비용</td><td>{won(cost.maintenance)}</td></tr>
+          <tr><th scope="row">관리비<small>매물 등록 금액</small></th><td>{included.length ? `포함: ${included.join(', ')}` : '포함 항목 없음'}</td><td>{won(cost.maintenance)}</td></tr>
           {cost.utilities.map(item => <tr key={item.key}>
             <th scope="row">{item.label}<small>{item.included === true ? '추가 비용 없음' : item.usage === null ? '전용면적 확인 필요' : `${item.basis} · ${Number(item.usage.toFixed(1))}${item.unit}`}</small></th>
             <td className={item.included === true ? 'living-included' : ''}>{item.included === true ? '관리비 포함' : item.included === false ? '별도 부과' : '포함 미확인'}</td>
@@ -25,6 +27,12 @@ export default function LivingCost({ property }) {
           </tr>)}
         </tbody>
       </table>
+      {property.maintenance_note && <div className="living-management-detail">
+        <strong>관리비 안내</strong>
+        <p>{property.maintenance_note}</p>
+        {included.length > 0 && <p><b>포함</b> {included.join(', ')}</p>}
+        {excluded.length > 0 && <p><b>미포함·별도 부과</b> {excluded.join(', ')}</p>}
+      </div>}
       <div className="living-transport">
         <div><label><input type="checkbox" checked={useTransport} onChange={e => setUseTransport(e.target.checked)} />교통비 추가 <small>선택</small></label><strong>{won(cost.transport)}</strong></div>
         <label className="living-fare">하루 1회 왕복비용 <input type="number" min="0" step="100" value={fare} disabled={!useTransport} onChange={e => setFare(e.target.value)} /> 원 × 30일</label>

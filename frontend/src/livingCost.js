@@ -1,5 +1,5 @@
 // Illustrative monthly usage and rates, not verified averages or official tariffs.
-// utility_inclusions: { electricity, gas, heating, hotWater, water }: true/false.
+// maintenance_included/excluded is the canonical source; utility_inclusions is a legacy fallback.
 // Missing values mean unknown, never implicitly included or confirmed excluded.
 export const UTILITY_ITEMS = [
   { key: 'electricity', label: '전기요금', usage: a => 100 + a * 2, rate: 200, unit: 'kWh', basis: '1인 기본 + 전용면적' },
@@ -9,14 +9,24 @@ export const UTILITY_ITEMS = [
   { key: 'water', label: '수도세', usage: () => 5, rate: 1000, unit: '㎥', basis: '1인 가구' },
   { key: 'internet', label: '인터넷', usage: () => 1, rate: 20000, unit: '회선', basis: '월 정액 예시' },
 ]
+const MANAGEMENT_LABELS = {
+  electricity: '전기', gas: '가스', heating: '난방', hotWater: '온수', water: '수도', internet: '인터넷',
+}
 const validNumber = value => typeof value === 'number' && Number.isFinite(value) && value >= 0
 export const won = value => value === null ? '확인 필요' : `${value.toLocaleString('ko-KR')}원`
 export function calculateLivingCost(property, useTransport = false, roundTripFare = 3000) {
   const area = validNumber(property.area) && property.area > 0 ? property.area : null
   const rent = property.transaction_type === '전세' ? 0 : validNumber(property.rent) ? Math.round(property.rent * 10000) : null
   const maintenance = validNumber(property.maintenance) ? Math.round(property.maintenance * 10000) : null
+  const includedItems = Array.isArray(property.maintenance_included) ? property.maintenance_included : []
+  const excludedItems = Array.isArray(property.maintenance_excluded) ? property.maintenance_excluded : []
   const utilities = UTILITY_ITEMS.map(item => {
-    const included = property.utility_inclusions?.[item.key]
+    const label = MANAGEMENT_LABELS[item.key]
+    const included = includedItems.includes(label)
+      ? true
+      : excludedItems.includes(label)
+        ? false
+        : property.utility_inclusions?.[item.key]
     const needsArea = item.key === 'electricity' || item.key === 'heating'
     const usage = needsArea && area === null ? null : item.usage(area)
     const cost = included === true ? 0 : usage === null ? null : Math.round(usage * item.rate / 100) * 100
