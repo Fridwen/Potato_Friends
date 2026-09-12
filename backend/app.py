@@ -32,7 +32,7 @@ app.add_middleware(
 )
 
 PROPERTIES = [{'id': 3,
-  'name': '제기동 대로변 원룸',
+  'name': '제기동 주차 가능한 풀옵션 원룸',
   'transaction_type': '월세',
   'location': '제기동',
   'address': '서울시 동대문구 제기동 67-211',
@@ -44,7 +44,7 @@ PROPERTIES = [{'id': 3,
   'area': 16.52,
   'supply_area': 16.52,
   'walk_time': 8,
-  'options': ['주차'],
+  'options': ['풀옵션', '주차', '에어컨', '냉장고', '세탁기', '전자레인지', '인덕션', '침대', '책상', '옷장'],
   'description': '학교와 가깝고 희소성 있는 대로변 원룸, 버스정류장 인접',
   'maintenance_note': '관리비 합계 5만원 · 세대별 계량기 사용량에 따라 부과 · 포함: 공용, 수도',
   'maintenance_included': ['공용', '수도'],
@@ -64,7 +64,7 @@ PROPERTIES = [{'id': 3,
              '/properties/room-1-3.jpg',
              '/properties/room-1-4.jpg']},
  {'id': 2,
-  'name': '안암동 신축급 반전세 원룸',
+  'name': '안암동 신축급 건조기 풀옵션 원룸',
   'transaction_type': '월세',
   'location': '안암동5가',
   'address': '서울시 성북구 안암동5가 136-25',
@@ -76,7 +76,7 @@ PROPERTIES = [{'id': 3,
   'area': 19.83,
   'supply_area': 33.05,
   'walk_time': 7,
-  'options': ['건조기', '세탁기'],
+  'options': ['건조기', '세탁기', '냉장고', '침대', '책상', '옷장', '인덕션', '전자레인지', '에어컨'],
   'description': '신축급으로 깔끔한 반전세 원룸, 건조기 구비',
   'maintenance_note': '관리비 합계 8만원 · 공용 5만원, 사용료 3만원 · 수도 1.5만원, 인터넷 1.5만원 · 전기·가스·난방·TV 실비',
   'maintenance_included': ['공용', '수도', '인터넷'],
@@ -101,7 +101,7 @@ PROPERTIES = [{'id': 3,
              '/properties/room-2-8.jpg',
              '/properties/room-2-9.jpg']},
  {'id': 1,
-  'name': '안암동 풀옵션 원룸',
+  'name': '안암동 남서향 건조기 풀옵션 원룸',
   'transaction_type': '월세',
   'location': '안암동5가',
   'address': '서울시 성북구 안암동5가 136-25',
@@ -113,7 +113,7 @@ PROPERTIES = [{'id': 3,
   'area': 19.14,
   'supply_area': 21.45,
   'walk_time': 7,
-  'options': ['풀옵션'],
+  'options': ['침대', '책상', '옷장', '냉장고', '세탁기', '에어컨', '건조기', '인덕션', '전자레인지'],
   'description': '깔끔한 내부의 풀옵션 원룸, 건조기 구비',
   'maintenance_note': '관리비 합계 8만원 · 중개 의뢰인이 세부내역을 고지하지 않음 · 포함: 공용, 수도, 인터넷, 기타',
   'maintenance_included': ['공용', '수도', '인터넷', '기타'],
@@ -136,7 +136,7 @@ PROPERTIES = [{'id': 3,
              '/properties/room-3-6.jpg',
              '/properties/room-3-7.jpg']},
  {'id': 4,
-  'name': '안암역 도보 3분 전세 원룸',
+  'name': '안암역 인근 실속형 전세 원룸',
   'transaction_type': '전세',
   'location': '안암동5가',
   'address': '서울시 성북구 안암동5가 103-80',
@@ -148,7 +148,7 @@ PROPERTIES = [{'id': 3,
   'area': 18.18,
   'supply_area': 101.11,
   'walk_time': 6,
-  'options': ['풀옵션'],
+  'options': ['세탁기'],
   'description': '안암역 도보 3분 거리의 가성비 좋은 전세 원룸',
   'maintenance_note': '관리비 합계 7만원 · 중개 의뢰인이 상세 부과 내역을 제시하지 않음 · 포함: 공용, 수도, 인터넷',
   'maintenance_included': ['공용', '수도', '인터넷'],
@@ -165,7 +165,7 @@ PROPERTIES = [{'id': 3,
   'property_number': '2649073274',
   'images': ['/properties/room-4-1.jpg']},
  {'id': 5,
-  'name': '제기동 풀옵션 투룸',
+  'name': '제기동 반려동물 가능 가전옵션 투룸',
   'transaction_type': '월세',
   'location': '제기동',
   'address': '서울시 동대문구 제기동 67-142',
@@ -177,8 +177,8 @@ PROPERTIES = [{'id': 3,
   'area': 27.0,
   'supply_area': 27.0,
   'walk_time': 8,
-  'options': ['풀옵션'],
-  'description': '반려동물 가능, 집기 전체를 사용할 수 있는 풀옵션 투룸',
+  'options': ['침대', '옷장', '냉장고', '세탁기', '인덕션', '전자레인지', '에어컨'],
+  'description': '반려동물 가능, 침대와 주요 가전을 갖춘 분리형 투룸',
   'floor': '저/3층',
   'rooms': 2,
   'bathrooms': 1,
@@ -198,7 +198,7 @@ PROPERTIES = [{'id': 3,
              '/properties/room-5-5.jpg',
              '/properties/room-5-6.jpg']},
  {'id': 6,
-  'name': '제기동 고려대 인접 투룸',
+  'name': '제기동 고려대 인접 풀옵션 투룸',
   'transaction_type': '월세',
   'location': '제기동',
   'address': '서울시 동대문구 제기동 67-85',
@@ -210,7 +210,7 @@ PROPERTIES = [{'id': 3,
   'area': 33.05,
   'supply_area': 42.97,
   'walk_time': 7,
-  'options': [],
+  'options': ['책상', '침대', '옷장', '냉장고', '세탁기', '인덕션', '전자레인지', '에어컨'],
   'description': '고려대 이공계·문과 캠퍼스 모두 접근하기 좋고 안암역·고려대역 도보 7분 거리',
   'maintenance_note': '관리비 합계 8만원 · 공용 5만원, 사용료 3만원 · 수도 1.5만원, 인터넷 1.5만원 · 전기·가스·난방·TV 실비',
   'maintenance_included': ['공용', '수도', '인터넷'],
@@ -235,7 +235,7 @@ PROPERTIES = [{'id': 3,
              '/properties/room-6-8.jpg',
              '/properties/room-6-9.jpg']},
  {'id': 7,
-  'name': '고려대 이공대 후문 원룸',
+  'name': '고려대 이공대 후문 풀옵션 원룸',
   'transaction_type': '월세',
   'location': '종암동',
   'address': '서울시 성북구 종암동 31-43',
@@ -247,7 +247,7 @@ PROPERTIES = [{'id': 3,
   'area': 20.49,
   'supply_area': 23.14,
   'walk_time': 5,
-  'options': ['풀옵션', '전자레인지', '책상', '에어컨', '냉장고'],
+  'options': ['책상', '침대', '전자레인지', '세탁기', '에어컨', '냉장고', '인덕션', '옷장'],
   'description': '이공대생들이 선호하는 조용한 주택가 분리형 원룸입니다.',
   'maintenance_note': '관리비 합계 10만원 · 공용 8만원, 사용료 2만원 · 수도 1만원, 인터넷 1만원 · 전기·가스·난방·TV 실비',
   'maintenance_included': ['공용', '수도', '인터넷'],
@@ -264,7 +264,7 @@ PROPERTIES = [{'id': 3,
   'property_number': '2649073275',
   'images': ['/properties/room-7-1.jpg', '/properties/room-7-2.jpg']},
  {'id': 10,
-  'name': '고대 인문계 도보 3분 월세 원룸',
+  'name': '고대 인문계 도보 3분 풀옵션 원룸',
   'transaction_type': '월세',
   'location': '안암동5가',
   'address': '서울특별시 성북구 고려대로24가길 4-7',
@@ -276,7 +276,7 @@ PROPERTIES = [{'id': 3,
   'area': 19.17,
   'supply_area': None,
   'walk_time': 3,
-  'options': ['수도', '인터넷'],
+  'options': ['에어컨', '냉장고', '세탁기', '가스레인지', '책상', '침대', '옷장'],
   'description': '고대 인문계 도보 3분 거리의 가성비 좋은 월세 원룸',
   'maintenance_note': '관리비 5만원(월 10만원 미만) · 포함: 수도, 인터넷 · 미포함: 일반 공용관리비, 전기, 가스, 난방, TV, 기타 관리비',
   'maintenance_included': ['수도', '인터넷'],
@@ -296,6 +296,31 @@ PROPERTIES = [{'id': 3,
              '/properties/id10_3.png',
              '/properties/id10_4.png',
              '/properties/id10_5.png']}]
+
+# 풀옵션은 핵심 생활 옵션 7종을 모두 갖춘 매물로 통일합니다.
+# 조리시설은 인덕션 또는 가스레인지 중 하나면 충족합니다.
+FULL_OPTION_REQUIRED = {'에어컨', '냉장고', '세탁기', '침대', '책상', '옷장'}
+COOKING_OPTIONS = {'인덕션', '가스레인지'}
+
+
+def is_full_option(item):
+    options = set(item.get('options', []))
+    return FULL_OPTION_REQUIRED.issubset(options) and bool(options & COOKING_OPTIONS)
+
+
+def has_required_option(item, required_option):
+    options = set(item.get('options', []))
+    if required_option == '풀옵션':
+        return is_full_option(item)
+    if required_option == '조리시설':
+        return bool(options & COOKING_OPTIONS)
+    return required_option in options
+
+
+# 상세 화면과 검색 결과에서도 판정된 풀옵션을 동일하게 표시합니다.
+for property_item in PROPERTIES:
+    if is_full_option(property_item) and '풀옵션' not in property_item['options']:
+        property_item['options'].insert(0, '풀옵션')
 
 
 
@@ -391,10 +416,7 @@ def recommend(req: RecommendRequest):
             continue
         if item["walk_time"] > req.max_walk_time:
             continue
-        # 풀옵션 매물은 사용자가 선택한 개별 기본 옵션을 모두 갖춘 것으로 봅니다.
-        if "풀옵션" not in item["options"] and any(
-            option not in item["options"] for option in req.required_options
-        ):
+        if any(not has_required_option(item, option) for option in req.required_options):
             continue
 
         matched.append(score_property(item, req))

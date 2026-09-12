@@ -2,7 +2,7 @@ from app import app, PROPERTIES
 
 PROPERTY_10 = {
     "id": 10,
-    "name": "고대 인문계 도보 3분 월세 원룸",
+    "name": "고대 인문계 도보 3분 풀옵션 원룸",
     "transaction_type": "월세",
     "location": "안암동5가",
     "address": "서울특별시 성북구 고려대로24가길 4-7",
@@ -14,7 +14,7 @@ PROPERTY_10 = {
     "area": 19.17,
     "supply_area": None,
     "walk_time": 3,
-    "options": ["수도", "인터넷"],
+    "options": ["풀옵션", "에어컨", "냉장고", "세탁기", "가스레인지", "책상", "침대", "옷장"],
     "description": "고대 인문계 도보 3분 거리의 가성비 좋은 월세 원룸",
     "maintenance_note": "관리비 5만원(월 10만원 미만) · 포함: 수도, 인터넷 · 미포함: 일반 공용관리비, 전기, 가스, 난방, TV, 기타 관리비",
     "maintenance_included": ["수도", "인터넷"],

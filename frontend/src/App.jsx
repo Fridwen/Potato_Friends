@@ -10,7 +10,10 @@ import LivingCost from './LivingCost.jsx'
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
 
-const OPTION_LIST = ['풀옵션', '에어컨', '세탁기', '냉장고', '엘리베이터', '주차']
+const OPTION_LIST = [
+  '풀옵션', '에어컨', '냉장고', '세탁기', '건조기', '조리시설',
+  '인덕션', '가스레인지', '전자레인지', '침대', '책상', '옷장', '주차',
+]
 const TRANSACTION_TYPES = ['전체', '월세', '전세']
 const THREE_D_PROPERTY_IDS = new Set([1, 10])
 
@@ -688,6 +691,7 @@ function App() {
                 </button>
               ))}
             </div>
+            <p className="option-help">풀옵션 기준: 에어컨, 냉장고, 세탁기, 조리시설(인덕션 또는 가스레인지), 침대, 책상, 옷장</p>
           </section>
 
           <section>
