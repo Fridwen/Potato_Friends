@@ -532,6 +532,7 @@ function App() {
   const [allError, setAllError] = useState('')
   const [compareItems, setCompareItems] = useState([])
   const [showCompare, setShowCompare] = useState(false)
+  const [compareTrayOpen, setCompareTrayOpen] = useState(true)
   const [compareMessage, setCompareMessage] = useState('')
   const [selectedMapPropertyId, setSelectedMapPropertyId] = useState(null)
 
@@ -571,6 +572,7 @@ function App() {
   }
 
   const toggleCompare = (property) => {
+    setCompareTrayOpen(true)
     setCompareItems((current) => {
       if (current.some((item) => item.id === property.id)) {
         setCompareMessage('')
@@ -767,17 +769,24 @@ function App() {
         </section>
       )}
 
-      {compareItems.length > 0 && (
+      {compareItems.length > 0 && compareTrayOpen && (
         <aside className="compare-tray" aria-label="매물 비교함">
+          <button type="button" className="compare-tray-close" aria-label="비교함 접기" title="비교함 접기" onClick={() => setCompareTrayOpen(false)}>×</button>
           <div>
             <strong>비교함 {compareItems.length}/3</strong>
             <span>{compareItems.map((item) => item.name).join(' · ')}</span>
             {compareMessage && <small>{compareMessage}</small>}
           </div>
-          <button type="button" disabled={compareItems.length < 2} onClick={() => setShowCompare(true)}>
+          <button type="button" className="compare-tray-action" disabled={compareItems.length < 2} onClick={() => { setShowCompare(true); setCompareTrayOpen(false) }}>
             {compareItems.length < 2 ? '한 개 더 선택하세요' : '비교표 보기'}
           </button>
         </aside>
+      )}
+
+      {compareItems.length > 0 && !compareTrayOpen && !showCompare && (
+        <button type="button" className="compare-tray-reopen" onClick={() => setCompareTrayOpen(true)}>
+          비교함 {compareItems.length}/3 열기
+        </button>
       )}
 
       {showCompare && (
