@@ -1,0 +1,21 @@
+.property-actions {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.property-actions > button {
+  width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .property-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .property-actions > button {
+    padding: 10px 6px;
+    font-size: 12px;
+  }
+}
