@@ -11,7 +11,7 @@ export const UTILITY_ITEMS = [
 ]
 const validNumber = value => typeof value === 'number' && Number.isFinite(value) && value >= 0
 export const won = value => value === null ? '확인 필요' : `${value.toLocaleString('ko-KR')}원`
-export function calculateLivingCost(property, useTransport = false, roundTripFare = 3000) {
+export function calculateLivingCost(property, useTransport = false, roundTripFare = 3000, transportDays = 30) {
   const area = validNumber(property.area) && property.area > 0 ? property.area : null
   const rent = property.transaction_type === '전세' ? 0 : validNumber(property.rent) ? Math.round(property.rent * 10000) : null
   const maintenance = validNumber(property.maintenance) ? Math.round(property.maintenance * 10000) : null
@@ -22,7 +22,8 @@ export function calculateLivingCost(property, useTransport = false, roundTripFar
     const cost = included === true ? 0 : usage === null ? null : Math.round(usage * item.rate / 100) * 100
     return { ...item, included, usage, cost }
   })
-  const transport = !useTransport ? 0 : validNumber(roundTripFare) ? Math.round(roundTripFare * 30) : null
+  const validDays = Number.isInteger(transportDays) && transportDays >= 1 && transportDays <= 31
+  const transport = !useTransport ? 0 : validNumber(roundTripFare) && validDays ? Math.round(roundTripFare * transportDays) : null
   const amounts = [rent, maintenance, ...utilities.map(item => item.cost), transport]
   return { area, rent, maintenance, utilities, transport, total: amounts.some(value => value === null) ? null : amounts.reduce((a, b) => a + b, 0) }
 }

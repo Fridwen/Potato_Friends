@@ -5,7 +5,8 @@ import './living-cost.css'
 export default function LivingCost({ property }) {
   const [useTransport, setUseTransport] = useState(false)
   const [fare, setFare] = useState('3000')
-  const cost = calculateLivingCost(property, useTransport, fare.trim() === '' ? null : Number(fare))
+  const [days, setDays] = useState('30')
+  const cost = calculateLivingCost(property, useTransport, fare.trim() === '' ? null : Number(fare), days.trim() === '' ? null : Number(days))
   const unknown = cost.utilities.some(item => typeof item.included !== 'boolean')
   return (
     <section className="living-cost" aria-label={`${property.name} 실거주비용`}>
@@ -27,8 +28,9 @@ export default function LivingCost({ property }) {
       </table>
       <div className="living-transport">
         <div><label><input type="checkbox" checked={useTransport} onChange={e => setUseTransport(e.target.checked)} />교통비 추가 <small>선택</small></label><strong>{won(cost.transport)}</strong></div>
-        <label className="living-fare">하루 1회 왕복비용 <input type="number" min="0" step="100" value={fare} disabled={!useTransport} onChange={e => setFare(e.target.value)} /> 원 × 30일</label>
-        <small>{useTransport ? '매일 왕복 1회, 한 달 30회 비용을 더합니다.' : '선택하지 않아 총 비용에서 제외됩니다.'}</small>
+        <label className="living-fare">하루 1회 왕복비용 <input type="number" min="0" step="100" value={fare} disabled={!useTransport} onChange={e => setFare(e.target.value)} /> 원</label>
+        <label className="living-fare">월 이용 일수 <input type="number" min="1" max="31" step="1" value={days} disabled={!useTransport} onChange={e => setDays(e.target.value)} /> 일</label>
+        <small>{!useTransport ? '선택하지 않아 총 비용에서 제외됩니다.' : cost.transport === null ? '왕복비용과 이용 일수(1~31일)를 확인해 주세요.' : `하루 왕복비용 × ${Number(days)}일 비용을 더합니다.`}</small>
       </div>
       <div className="living-total" aria-live="polite" aria-atomic="true"><div><strong>한 달 예상 총 비용</strong><small>월세 포함 · 교통비 {useTransport ? '포함' : '제외'}</small></div><output>{won(cost.total)}</output></div>
       <details><summary>어떻게 계산했나요?</summary>
