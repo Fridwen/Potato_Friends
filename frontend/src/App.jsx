@@ -563,7 +563,7 @@ function App() {
   return (
     <div className="page">
       <header className="hero">
-        <span className="badge">고려대학교 자취방 비교</span>
+        <span className="badge">자취방 한눈에 비교하기 🔍</span>
         <h1>나한테 맞는 방을<br />조건부터 골라보세요.</h1>
         <p>
           월세만 보지 않고 가격·거리·면적을 함께 비교해
