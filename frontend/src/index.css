@@ -59,6 +59,30 @@ button {
   line-height: 1.7;
 }
 
+.main-tabs {
+  display: inline-flex;
+  gap: 6px;
+  margin-bottom: 24px;
+  padding: 6px;
+  border: 1px solid #e2e7f0;
+  border-radius: 15px;
+  background: white;
+}
+
+.main-tabs button {
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 20px;
+  background: transparent;
+  color: #748096;
+  font-weight: 900;
+}
+
+.main-tabs button.active {
+  background: #5362e7;
+  color: white;
+}
+
 .filter-card {
   padding: 34px;
   border: 1px solid #e2e7f0;
@@ -210,6 +234,74 @@ button {
 
 .results-section {
   margin-top: 68px;
+}
+
+.all-properties-section {
+  margin-top: 18px;
+}
+
+.map-section {
+  margin-top: 18px;
+}
+
+.property-map,
+.map-loading {
+  width: 100%;
+  height: min(620px, 68vh);
+  min-height: 460px;
+  overflow: hidden;
+  border: 1px solid #dfe4ed;
+  border-radius: 24px;
+  background: #eef1f6;
+  box-shadow: 0 18px 50px rgba(31, 42, 68, 0.09);
+}
+
+.map-loading {
+  display: grid;
+  place-items: center;
+  color: #748096;
+  font-weight: 800;
+}
+
+.property-marker {
+  display: grid;
+  place-items: center;
+  border: 3px solid white;
+  border-radius: 50% 50% 50% 8px;
+  background: #5362e7;
+  color: white;
+  box-shadow: 0 5px 15px rgba(31, 42, 68, 0.3);
+  transform: rotate(-45deg);
+}
+
+.property-marker span {
+  font-size: 21px;
+  transform: rotate(45deg);
+}
+
+.map-popup img {
+  width: 100%;
+  height: 120px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.map-popup strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+.map-popup p {
+  margin: 7px 0;
+  color: #4f5de4;
+  font-weight: 900;
+}
+
+.map-popup small {
+  color: #748096;
+  line-height: 1.4;
 }
 
 .results-heading {
@@ -365,6 +457,25 @@ button {
   font-weight: 700;
 }
 
+.transaction-type {
+  display: inline-block;
+  margin-right: 7px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.transaction-type.monthly {
+  color: #b45309;
+  background: #fef3c7;
+}
+
+.transaction-type.jeonse {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
 .property-head h3 {
   margin: 5px 0 0;
   font-size: 21px;
@@ -400,6 +511,13 @@ button {
   font-size: 14px;
 }
 
+.property-description {
+  margin: 0 0 16px;
+  color: #4f5b70;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -413,14 +531,338 @@ button {
 }
 
 .compare-button {
-  width: 100%;
-  margin-top: 20px;
   border: 1px solid #dce1ea;
   border-radius: 12px;
   padding: 12px;
   background: white;
   color: #334056;
   font-weight: 900;
+}
+
+.compare-button.selected {
+  border-color: #5362e7;
+  background: #eef0ff;
+  color: #4453dc;
+}
+
+.compare-tray {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  left: 24px;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: min(900px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 18px;
+  background: rgba(23, 32, 51, 0.95);
+  color: white;
+  box-shadow: 0 18px 50px rgba(17, 24, 39, 0.3);
+  backdrop-filter: blur(12px);
+}
+
+.compare-tray > div {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.compare-tray span {
+  overflow: hidden;
+  color: #cbd3e1;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compare-tray small {
+  color: #ffca73;
+  font-weight: 800;
+}
+
+.compare-tray > button {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  background: #6675f0;
+  color: white;
+  font-weight: 900;
+}
+
+.compare-tray > button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.property-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 20px;
+}
+
+.floor-plan-button {
+  border: 1px solid #5362e7;
+  border-radius: 12px;
+  padding: 12px;
+  background: #5362e7;
+  color: white;
+  font-weight: 900;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(17, 24, 39, 0.66);
+}
+
+.floor-plan-modal {
+  position: relative;
+  width: min(720px, 100%);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 30px;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+}
+
+.compare-modal {
+  position: relative;
+  width: min(960px, 100%);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 30px;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+}
+
+.compare-modal h2 {
+  margin: 14px 48px 12px 0;
+}
+
+.compare-legend {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.compare-legend span,
+.compare-table td em {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.compare-legend span {
+  padding: 5px 9px;
+}
+
+.compare-legend .best,
+.compare-table .comparison-best em {
+  background: #dff7e9;
+  color: #16804a;
+}
+
+.compare-legend .middle,
+.compare-table .comparison-middle em {
+  background: #fff3c9;
+  color: #9a6700;
+}
+
+.compare-legend .worst,
+.compare-table .comparison-worst em {
+  background: #ffe1e1;
+  color: #c23d3d;
+}
+
+.compare-table-wrap {
+  overflow-x: auto;
+}
+
+.compare-table {
+  width: 100%;
+  min-width: 650px;
+  border-spacing: 0;
+  border-collapse: separate;
+  border: 1px solid #e2e7f0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.compare-table th,
+.compare-table td {
+  min-width: 160px;
+  padding: 13px;
+  border-right: 1px solid #e8ecf2;
+  border-bottom: 1px solid #e8ecf2;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.compare-table tr:last-child th,
+.compare-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.compare-table th:last-child,
+.compare-table td:last-child {
+  border-right: 0;
+}
+
+.compare-table tbody th,
+.compare-table thead > tr > th:first-child {
+  min-width: 100px;
+  background: #f7f8fc;
+  color: #68758a;
+  font-size: 13px;
+}
+
+.compare-table tbody th small {
+  display: block;
+  margin-top: 4px;
+  color: #9aa3b2;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.compare-table td > strong {
+  display: block;
+  font-size: 15px;
+}
+
+.compare-table td em {
+  margin-top: 7px;
+  padding: 4px 8px;
+}
+
+.compare-table td.comparison-best {
+  background: #f1fbf5;
+  box-shadow: inset 0 0 0 2px #7bd4a4;
+}
+
+.compare-table td.comparison-middle {
+  background: #fffaf0;
+}
+
+.compare-table td.comparison-worst {
+  background: #fff5f5;
+}
+
+.compare-table td.comparison-same {
+  background: #f7f8fc;
+}
+
+.compare-table .comparison-same em {
+  background: #e8ecf2;
+  color: #68758a;
+}
+
+.compare-table thead img {
+  display: block;
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.compare-table thead strong {
+  display: block;
+  min-height: 42px;
+}
+
+.compare-table thead button {
+  margin-top: 8px;
+  border: 0;
+  background: transparent;
+  color: #d14d4d;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: #eef1f6;
+  color: #334056;
+  font-size: 25px;
+}
+
+.ai-label {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #eef0ff;
+  color: #4f5de4;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.floor-plan-modal h2 { margin: 12px 0 5px; }
+
+.plan-summary,
+.plan-notice {
+  color: #748096;
+  line-height: 1.6;
+}
+
+.floor-plan {
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.floor-plan text {
+  fill: #334056;
+  font-size: 18px;
+  font-weight: 800;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.floor-plan .plan-wall,
+.floor-plan .plan-room,
+.floor-plan .plan-bath,
+.floor-plan .plan-kitchen {
+  stroke: #334056;
+  stroke-width: 7;
+}
+
+.floor-plan .plan-wall { fill: white; }
+.floor-plan .plan-room { fill: #eef0ff; }
+.floor-plan .plan-bath { fill: #dff4ff; }
+.floor-plan .plan-kitchen { fill: #fff2d8; }
+.floor-plan .plan-door { fill: none; stroke: #e08a3e; stroke-width: 5; }
+.floor-plan .plan-window { stroke: #46a2dc; stroke-width: 11; }
+.floor-plan .plan-entry { fill: none; stroke: #5362e7; stroke-width: 5; }
+.floor-plan .plan-window-label,
+.floor-plan .plan-entry-label { font-size: 13px; fill: #748096; }
+
+.plan-notice {
+  margin: 12px 0 0;
+  font-size: 13px;
 }
 
 @media (max-width: 760px) {
@@ -436,6 +878,44 @@ button {
   .field-grid,
   .result-grid {
     grid-template-columns: 1fr;
+  }
+
+  .property-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .floor-plan-modal {
+    padding: 24px 18px;
+  }
+
+  .compare-modal {
+    padding: 24px 14px;
+  }
+
+  .compare-tray {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: calc(100% - 24px);
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .main-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+  }
+
+  .main-tabs button {
+    padding: 10px 7px;
+    font-size: 13px;
+  }
+
+  .property-map,
+  .map-loading {
+    min-height: 520px;
   }
 
   .results-heading {

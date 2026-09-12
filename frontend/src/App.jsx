@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '')
 
-const OPTION_LIST = ['에어컨', '세탁기', '냉장고', '엘리베이터', '주차']
+const OPTION_LIST = ['풀옵션', '에어컨', '세탁기', '냉장고', '엘리베이터', '주차']
 
 function NumberField({ label, value, onChange, unit, min = 0, step = 1 }) {
   return (
@@ -103,6 +106,263 @@ function PropertyImageCarousel({ property }) {
   )
 }
 
+function EstimatedFloorPlan({ property }) {
+  const isTwoRoom = property.rooms >= 2
+  const isSeparated = property.room_type === '분리형'
+
+  return (
+    <svg className="floor-plan" viewBox="0 0 640 420" role="img" aria-label={`${property.name} 추정 평면도`}>
+      <rect className="plan-wall" x="20" y="20" width="600" height="380" rx="4" />
+      <rect className="plan-bath" x="35" y="35" width="155" height="125" />
+      <text x="112" y="102">욕실</text>
+      <path className="plan-door" d="M190 120 A40 40 0 0 1 150 160" />
+      <rect className="plan-kitchen" x="35" y="175" width={isSeparated ? 200 : 155} height="105" />
+      <text x={isSeparated ? 135 : 112} y="233">주방</text>
+
+      {isTwoRoom ? (
+        <>
+          <rect className="plan-room" x="255" y="35" width="350" height="165" />
+          <text x="430" y="123">방 1</text>
+          <rect className="plan-room" x="255" y="215" width="350" height="170" />
+          <text x="430" y="306">방 2</text>
+          <path className="plan-door" d="M255 160 A40 40 0 0 1 295 200" />
+          <path className="plan-door" d="M255 255 A40 40 0 0 0 295 215" />
+        </>
+      ) : (
+        <>
+          <rect className="plan-room" x={isSeparated ? 255 : 205} y="35" width={isSeparated ? 350 : 400} height="350" />
+          <text x="430" y="210">생활 공간</text>
+          {isSeparated && <path className="plan-door" d="M255 245 A40 40 0 0 1 295 285" />}
+        </>
+      )}
+
+      <line className="plan-window" x1="390" y1="20" x2="535" y2="20" />
+      <text className="plan-window-label" x="462" y="48">창문</text>
+      <path className="plan-entry" d="M35 350 L35 400 M35 350 A50 50 0 0 1 85 400" />
+      <text className="plan-entry-label" x="92" y="380">현관</text>
+    </svg>
+  )
+}
+
+function FloorPlanModal({ property, onClose }) {
+  return (
+    <div className="modal-backdrop" role="presentation" onMouseDown={onClose}>
+      <section className="floor-plan-modal" role="dialog" aria-modal="true" aria-labelledby={`floor-plan-title-${property.id}`} onMouseDown={(e) => e.stopPropagation()}>
+        <button type="button" className="modal-close" onClick={onClose} aria-label="평면도 닫기">×</button>
+        <span className="ai-label">AI 추정 평면도</span>
+        <h2 id={`floor-plan-title-${property.id}`}>{property.name}</h2>
+        <p className="plan-summary">
+          전용 {property.area}㎡ · 방 {property.rooms ?? 1}개 · 욕실 {property.bathrooms ?? 1}개 · {property.room_type ?? '구조 미상'}
+        </p>
+        <EstimatedFloorPlan property={property} />
+        <p className="plan-notice">사진 및 매물 정보를 바탕으로 구성한 참고용 추정도입니다. 실제 구조와 치수는 다를 수 있습니다.</p>
+      </section>
+    </div>
+  )
+}
+
+const propertyMarker = L.divIcon({
+  className: 'property-marker',
+  html: '<span>⌂</span>',
+  iconSize: [38, 38],
+  iconAnchor: [19, 38],
+  popupAnchor: [0, -34],
+})
+
+function FitPropertyBounds({ properties }) {
+  const map = useMap()
+
+  useEffect(() => {
+    const points = properties
+      .filter((property) => property.latitude && property.longitude)
+      .map((property) => [property.latitude, property.longitude])
+    if (points.length) map.fitBounds(points, { padding: [55, 55], maxZoom: 17 })
+  }, [map, properties])
+
+  return null
+}
+
+function PropertyMap({ properties }) {
+  const markerPositions = properties.map((property, index) => {
+    const earlierAtSameAddress = properties
+      .slice(0, index)
+      .filter((item) => item.latitude === property.latitude && item.longitude === property.longitude)
+      .length
+    const offset = earlierAtSameAddress * 0.000035
+    return [property.latitude + offset, property.longitude + offset]
+  })
+
+  return (
+    <MapContainer className="property-map" center={[37.5861, 127.0304]} zoom={16} scrollWheelZoom>
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <FitPropertyBounds properties={properties} />
+      {properties.map((property, index) => (
+        <Marker key={property.id} position={markerPositions[index]} icon={propertyMarker}>
+          <Popup minWidth={240}>
+            <div className="map-popup">
+              {property.images?.[0] && <img src={property.images[0]} alt="" />}
+              <span className={`transaction-type ${property.transaction_type === '전세' ? 'jeonse' : 'monthly'}`}>{property.transaction_type}</span>
+              <strong>{property.name}</strong>
+              <p>{property.transaction_type === '전세' ? `${property.deposit}만원` : `${property.deposit}/${property.rent}만원`} · {property.area}㎡</p>
+              <small>{property.address}</small>
+            </div>
+          </Popup>
+        </Marker>
+      ))}
+    </MapContainer>
+  )
+}
+
+function CompareModal({ properties, onClose, onRemove }) {
+  const rows = [
+    { label: '거래 유형', display: (item) => item.transaction_type },
+    { label: '보증금', hint: '낮을수록 유리', display: (item) => `${item.deposit}만원`, score: (item) => item.deposit, better: 'low' },
+    { label: '월세', hint: '낮을수록 유리', display: (item) => item.transaction_type === '전세' ? '-' : `${item.rent}만원`, score: (item) => item.transaction_type === '전세' ? null : item.rent, better: 'low' },
+    { label: '관리비', hint: '낮을수록 유리', display: (item) => `${item.maintenance}만원`, score: (item) => item.maintenance, better: 'low' },
+    { label: '월세 + 관리비', hint: '월 고정 부담 · 낮을수록 유리', display: (item) => `${item.rent + item.maintenance}만원`, score: (item) => item.rent + item.maintenance, better: 'low' },
+    { label: '전용면적', hint: '넓을수록 유리', display: (item) => `${item.area}㎡`, score: (item) => item.area, better: 'high' },
+    { label: '학교까지', hint: '가까울수록 유리', display: (item) => `${item.walk_time}분`, score: (item) => item.walk_time, better: 'low' },
+    { label: '방 구조', display: (item) => `${item.room_type ?? '-'} · 방 ${item.rooms ?? 1}개` },
+    { label: '주차', display: (item) => item.parking ?? '-' },
+    { label: '방향', display: (item) => item.direction ?? '-' },
+    { label: '옵션', display: (item) => item.options.length ? item.options.join(', ') : '-' },
+  ]
+
+  const cellGrade = (row, item) => {
+    if (!row.score) return ''
+    const value = row.score(item)
+    if (value === null) return ''
+    const values = [...new Set(properties.map(row.score).filter((number) => number !== null))]
+      .sort((a, b) => row.better === 'low' ? a - b : b - a)
+    if (values.length < 2) return 'same'
+    const rank = values.indexOf(value)
+    if (rank === 0) return 'best'
+    if (rank === values.length - 1) return 'worst'
+    return 'middle'
+  }
+
+  const gradeLabel = { best: '유리', middle: '중간', worst: '불리', same: '동일' }
+
+  return (
+    <div className="modal-backdrop" role="presentation" onMouseDown={onClose}>
+      <section className="compare-modal" role="dialog" aria-modal="true" aria-labelledby="compare-title" onMouseDown={(e) => e.stopPropagation()}>
+        <button type="button" className="modal-close" onClick={onClose} aria-label="비교표 닫기">×</button>
+        <span className="badge">매물 비교</span>
+        <h2 id="compare-title">어떤 방이 더 잘 맞는지 비교해보세요.</h2>
+        <div className="compare-legend">
+          <span className="best">유리</span>
+          <span className="middle">중간</span>
+          <span className="worst">불리</span>
+        </div>
+        <div className="compare-table-wrap">
+          <table className="compare-table">
+            <thead>
+              <tr>
+                <th>항목</th>
+                {properties.map((item) => (
+                  <th key={item.id}>
+                    {item.images?.[0] && <img src={item.images[0]} alt="" />}
+                    <strong>{item.name}</strong>
+                    <button type="button" onClick={() => onRemove(item.id)}>빼기</button>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr key={row.label}>
+                  <th>
+                    {row.label}
+                    {row.hint && <small>{row.hint}</small>}
+                  </th>
+                  {properties.map((item) => {
+                    const grade = cellGrade(row, item)
+                    return (
+                      <td key={item.id} className={grade ? `comparison-${grade}` : ''}>
+                        <strong>{row.display(item)}</strong>
+                        {grade && <em>{gradeLabel[grade]}</em>}
+                      </td>
+                    )
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function PropertyCard({ property, index, recommended = false, selected = false, onToggleCompare }) {
+  const monthlyCost = property.monthly_cost ?? property.rent + property.maintenance
+  const [showFloorPlan, setShowFloorPlan] = useState(false)
+
+  return (
+    <article className="property-card">
+      <div className="image-box">
+        <PropertyImageCarousel property={property} />
+        {recommended && <span className="rank">{index + 1}위</span>}
+        {recommended && <span className="score">{property.score}점</span>}
+      </div>
+
+      <div className="property-body">
+        <div className="property-head">
+          <div>
+            <small>
+              <span className={`transaction-type ${property.transaction_type === '전세' ? 'jeonse' : 'monthly'}`}>
+                {property.transaction_type}
+              </span>
+              {property.location}
+            </small>
+            <h3>{property.name}</h3>
+          </div>
+          <strong>
+            {property.transaction_type === '전세'
+              ? `전세 ${property.deposit}만`
+              : `월 ${monthlyCost}만`}
+          </strong>
+        </div>
+
+        <div className="facts">
+          <span>보증금 {property.deposit}만</span>
+          {property.transaction_type === '월세' && <span>월세 {property.rent}만</span>}
+          <span>관리비 {property.maintenance}만</span>
+          <span>{property.area}㎡</span>
+          <span>학교 {property.walk_time}분</span>
+        </div>
+
+        {property.description && <p className="property-description">{property.description}</p>}
+
+        {recommended && property.reasons?.length > 0 && (
+          <ul className="reasons">
+            {property.reasons.map((reason) => <li key={reason}>{reason}</li>)}
+          </ul>
+        )}
+
+        <div className="tags">
+          {property.options.map((option) => <span key={option}>{option}</span>)}
+        </div>
+
+        <div className="property-actions">
+          <button type="button" className="floor-plan-button" onClick={() => setShowFloorPlan(true)}>AI 평면도 보기</button>
+          <button
+            type="button"
+            className={selected ? 'compare-button selected' : 'compare-button'}
+            onClick={() => onToggleCompare(property)}
+          >
+            {selected ? '비교함에서 빼기' : '비교함에 담기'}
+          </button>
+        </div>
+      </div>
+      {showFloorPlan && <FloorPlanModal property={property} onClose={() => setShowFloorPlan(false)} />}
+    </article>
+  )
+}
+
 function App() {
   const [form, setForm] = useState({
     max_deposit: 1000,
@@ -120,6 +380,33 @@ function App() {
   const [searched, setSearched] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [activeTab, setActiveTab] = useState('recommend')
+  const [allProperties, setAllProperties] = useState([])
+  const [allLoading, setAllLoading] = useState(false)
+  const [allError, setAllError] = useState('')
+  const [compareItems, setCompareItems] = useState([])
+  const [showCompare, setShowCompare] = useState(false)
+  const [compareMessage, setCompareMessage] = useState('')
+
+  useEffect(() => {
+    if (!['all', 'map'].includes(activeTab) || allProperties.length) return
+
+    const loadAllProperties = async () => {
+      setAllLoading(true)
+      setAllError('')
+      try {
+        const response = await fetch(`${API_URL}/api/properties`)
+        if (!response.ok) throw new Error('전체 매물 요청에 실패했습니다.')
+        setAllProperties(await response.json())
+      } catch (err) {
+        setAllError('전체 매물을 불러올 수 없습니다.')
+      } finally {
+        setAllLoading(false)
+      }
+    }
+
+    loadAllProperties()
+  }, [activeTab, allProperties.length])
 
   const update = (key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -132,6 +419,25 @@ function App() {
         ? prev.required_options.filter((item) => item !== option)
         : [...prev.required_options, option],
     }))
+  }
+
+  const toggleCompare = (property) => {
+    setCompareItems((current) => {
+      if (current.some((item) => item.id === property.id)) {
+        setCompareMessage('')
+        return current.filter((item) => item.id !== property.id)
+      }
+      if (current.length >= 3) {
+        setCompareMessage('비교는 최대 3개까지 가능합니다.')
+        return current
+      }
+      setCompareMessage('')
+      return [...current, property]
+    })
+  }
+
+  const removeCompareItem = (id) => {
+    setCompareItems((current) => current.filter((item) => item.id !== id))
   }
 
   const submit = async (e) => {
@@ -169,7 +475,31 @@ function App() {
         </p>
       </header>
 
-      <form className="filter-card" onSubmit={submit}>
+      <nav className="main-tabs" aria-label="매물 보기 방식">
+        <button
+          type="button"
+          className={activeTab === 'recommend' ? 'active' : ''}
+          onClick={() => setActiveTab('recommend')}
+        >
+          맞춤 추천
+        </button>
+        <button
+          type="button"
+          className={activeTab === 'all' ? 'active' : ''}
+          onClick={() => setActiveTab('all')}
+        >
+          전체 매물
+        </button>
+        <button
+          type="button"
+          className={activeTab === 'map' ? 'active' : ''}
+          onClick={() => setActiveTab('map')}
+        >
+          지도에서 찾기
+        </button>
+      </nav>
+
+      {activeTab === 'recommend' && <form className="filter-card" onSubmit={submit}>
         <section>
           <div className="section-title">
             <span>1</span>
@@ -232,9 +562,9 @@ function App() {
         </button>
 
         {error && <p className="error">{error}</p>}
-      </form>
+      </form>}
 
-      {searched && (
+      {activeTab === 'recommend' && searched && (
         <section className="results-section">
           <div className="results-heading">
             <div>
@@ -246,48 +576,76 @@ function App() {
 
           <div className="result-grid">
             {results.map((property, index) => (
-              <article className="property-card" key={property.id}>
-                <div className="image-box">
-                  <PropertyImageCarousel property={property} />
-                  <span className="rank">{index + 1}위</span>
-                  <span className="score">{property.score}점</span>
-                </div>
-
-                <div className="property-body">
-                  <div className="property-head">
-                    <div>
-                      <small>{property.location}</small>
-                      <h3>{property.name}</h3>
-                    </div>
-                    <strong>월 {property.monthly_cost}만</strong>
-                  </div>
-
-                  <div className="facts">
-                    <span>보증금 {property.deposit}만</span>
-                    <span>월세 {property.rent}만</span>
-                    <span>관리비 {property.maintenance}만</span>
-                    <span>{property.area}㎡</span>
-                    <span>학교 {property.walk_time}분</span>
-                  </div>
-
-                  <ul className="reasons">
-                    {property.reasons.map((reason) => (
-                      <li key={reason}>{reason}</li>
-                    ))}
-                  </ul>
-
-                  <div className="tags">
-                    {property.options.map((option) => (
-                      <span key={option}>{option}</span>
-                    ))}
-                  </div>
-
-                  <button className="compare-button">비교함에 담기</button>
-                </div>
-              </article>
+              <PropertyCard
+                key={property.id}
+                property={property}
+                index={index}
+                recommended
+                selected={compareItems.some((item) => item.id === property.id)}
+                onToggleCompare={toggleCompare}
+              />
             ))}
           </div>
         </section>
+      )}
+
+      {activeTab === 'all' && (
+        <section className="results-section all-properties-section">
+          <div className="results-heading">
+            <div>
+              <span className="badge">전체 매물</span>
+              <h2>{allLoading ? '매물을 불러오는 중이에요.' : `등록된 매물 ${allProperties.length}개`}</h2>
+            </div>
+            <p>조건과 관계없이 등록된 모든 매물을 확인하세요.</p>
+          </div>
+          {allError && <p className="error">{allError}</p>}
+          <div className="result-grid">
+            {allProperties.map((property, index) => (
+              <PropertyCard
+                key={property.id}
+                property={property}
+                index={index}
+                selected={compareItems.some((item) => item.id === property.id)}
+                onToggleCompare={toggleCompare}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {activeTab === 'map' && (
+        <section className="map-section">
+          <div className="results-heading">
+            <div>
+              <span className="badge">지도에서 찾기</span>
+              <h2>학교 주변 매물을 한눈에 확인하세요.</h2>
+            </div>
+            <p>마커를 선택하면 가격과 매물 정보를 볼 수 있습니다.</p>
+          </div>
+          {allError && <p className="error">{allError}</p>}
+          {allLoading ? <div className="map-loading">지도를 준비하고 있어요.</div> : <PropertyMap properties={allProperties} />}
+        </section>
+      )}
+
+      {compareItems.length > 0 && (
+        <aside className="compare-tray" aria-label="매물 비교함">
+          <div>
+            <strong>비교함 {compareItems.length}/3</strong>
+            <span>{compareItems.map((item) => item.name).join(' · ')}</span>
+            {compareMessage && <small>{compareMessage}</small>}
+          </div>
+          <button type="button" disabled={compareItems.length < 2} onClick={() => setShowCompare(true)}>
+            {compareItems.length < 2 ? '한 개 더 선택하세요' : '비교표 보기'}
+          </button>
+        </aside>
+      )}
+
+      {showCompare && (
+        <CompareModal
+          properties={compareItems}
+          onClose={() => setShowCompare(false)}
+          onRemove={removeCompareItem}
+        />
       )}
     </div>
   )
