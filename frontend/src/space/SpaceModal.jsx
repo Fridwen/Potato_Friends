@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { displayZones } from './space'
 import roomOneSpace from './data/room-1.json'
 import './space.css'
+import './three-d-only.css'
 
 const RoomView = lazy(() => import('./RoomView'))
 const results = new Map()
