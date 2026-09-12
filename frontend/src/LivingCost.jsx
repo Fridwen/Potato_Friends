@@ -34,12 +34,19 @@ export default function LivingCost({ property }) {
       </div>
       <div className="living-total" aria-live="polite" aria-atomic="true"><div><strong>한 달 예상 총 비용</strong><small>월세 포함 · 교통비 {useTransport ? '포함' : '제외'}</small></div><output>{won(cost.total)}</output></div>
       <details><summary>항목별 계산 방법 자세히 보기</summary>
-        <p>공과금은 검증된 평균이나 공식 요금이 아닌 예시 사용량·단가로 계산하고, 100원 단위로 반올림합니다.</p>
-        <ul><li>전기: (100 + 전용면적 × 2)kWh × 200원</li><li>취사용 가스: 3㎥ × 1,000원</li><li>난방: 전용면적 × 3kWh × 100원</li><li>온수: 2㎥ × 4,000원</li><li>수도: 5㎥ × 1,000원</li><li>인터넷: 월 20,000원</li></ul>
-        <p>관리비 포함으로 등록된 항목은 자동으로 0원 처리합니다. 가스는 취사용만 가정하며, 실제 난방·온수·수도 청구 범위에 맞춘 중복 검증과 계절·지역 요금 반영은 아직 적용되지 않았습니다.</p>
+        <p>공과금은 <strong>예시 사용량과 단가를 기준으로 계산한 예상 비용</strong>입니다. 실제 평균 사용량이나 공식 요금을 반영한 금액은 아니며, 100원 단위로 반올림해 표시합니다.</p>
+        <ul>
+          <li><strong>전기요금:</strong> 1인 기본 사용량에 전용면적에 따른 사용량을 더해 계산합니다.<br />(100 + 전용면적 × 2)kWh × 200원</li>
+          <li><strong>가스요금:</strong> 1인 가구의 취사용 가스를 기준으로 계산합니다.<br />3㎥ × 1,000원</li>
+          <li><strong>난방요금:</strong> 전용면적에 따라 계산합니다.<br />전용면적 × 3kWh × 100원</li>
+          <li><strong>온수요금:</strong> 1인 가구의 온수 사용량을 기준으로 계산합니다.<br />2㎥ × 4,000원</li>
+          <li><strong>수도요금:</strong> 1인 가구의 수도 사용량을 기준으로 계산합니다.<br />5㎥ × 1,000원</li>
+          <li><strong>인터넷:</strong> 월 20,000원으로 가정합니다.</li>
+        </ul>
+        <p><strong>관리비에 포함된 항목은 추가 비용 없이 0원으로 표시합니다.</strong> 가스요금은 취사용만 계산하며, 난방·온수·수도 요금의 중복 여부와 계절·지역별 요금 차이는 아직 반영하지 않았습니다. 실제 청구 금액은 달라질 수 있습니다.</p>
         {property.transaction_type === '전세' && <p>전세 보증금과 대출 이자는 이 합계에 포함되지 않습니다.</p>}
       </details>
-      <p className="living-note">공과금 사용량·단가는 예시이며 실제 청구액과 다릅니다.{unknown && ' 관리비 포함 여부가 없는 항목은 별도 비용으로 가정했습니다.'}</p>
+      <p className="living-note">공과금은 전용면적과 1인 가구의 사용량을 가정한 예시 기준으로 계산합니다. 실제 사용량과 요금에 따라 청구액은 달라질 수 있습니다.{unknown && ' 관리비 포함 여부가 없는 항목은 별도 비용으로 가정했습니다.'}</p>
     </section>
   )
 }
