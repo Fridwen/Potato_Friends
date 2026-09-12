@@ -817,6 +817,23 @@ button {
   line-height: 1.65;
 }
 
+.maintenance-description {
+  display: grid;
+  gap: 4px;
+  margin: -6px 0 16px;
+  padding: 11px 12px;
+  border-radius: 11px;
+  background: #f7f8fc;
+  color: #657187;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.maintenance-description strong {
+  color: #39465b;
+  font-size: 13px;
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;

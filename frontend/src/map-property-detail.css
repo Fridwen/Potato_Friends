@@ -157,6 +157,23 @@
   line-height: 1.7;
 }
 
+.map-detail-maintenance {
+  display: grid;
+  gap: 5px;
+  margin: 10px 0 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #f4f6fb;
+  color: #657187;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.map-detail-maintenance strong {
+  color: #344158;
+  font-size: 13px;
+}
+
 .map-detail-facts {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

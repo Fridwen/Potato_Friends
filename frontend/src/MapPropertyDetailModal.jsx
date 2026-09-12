@@ -91,6 +91,9 @@ export default function MapPropertyDetailModal({ property, onClose, inCompare, o
           </div>
 
           {property.description && <p className="map-detail-description">{property.description}</p>}
+          {property.maintenance_note && (
+            <p className="map-detail-maintenance"><strong>관리비 안내</strong>{property.maintenance_note}</p>
+          )}
 
           <div className="map-detail-facts">
             <div><span>보증금</span><strong>{property.deposit}만원</strong></div>

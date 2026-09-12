@@ -429,6 +429,9 @@ function PropertyCard({ property, index, recommended = false, selected = false, 
         </div>
 
         {property.description && <p className="property-description">{property.description}</p>}
+        {property.maintenance_note && (
+          <p className="maintenance-description"><strong>관리비 안내</strong>{property.maintenance_note}</p>
+        )}
 
         {recommended && property.reasons?.length > 0 && (
           <ul className="reasons">
