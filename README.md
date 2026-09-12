@@ -19,7 +19,7 @@ Roomio & Viewliet은 다음 흐름으로 이 문제를 해결합니다.
   → 지도에서 위치 확인
   → 실거주비용 계산
   → 관심 매물 비교
-  → 2D 평면도와 3D 공간 확인
+  → 3D 공간 확인
 ```
 
 ---
@@ -130,81 +130,22 @@ Potato_Friends/
 
 ---
 
-## 로컬 실행
+## 데모 링크
 
 ### 1. Roomio Backend
 
-```bash
-cd backend
-python -m pip install -r requirements.txt
-uvicorn app:app --reload
-```
-
-- API: `http://localhost:8000`
-- API 문서: `http://localhost:8000/docs`
+- API: `https://nbtbackend.vercel.app`
+- API 문서: `https://nbtbackend.vercel.app/docs`
 
 ### 2. Roomio Frontend
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-- 화면: `http://localhost:5173`
+- 화면: `https://nbtfrontend.vercel.app/`
 
 ### 3. Viewliet
 
-Node.js 22 이상과 pnpm 사용을 권장합니다.
+- 화면: `https://potato-friends.onrender.com/`
+- 많이 사용하면 API 한도에 걸릴 수 있습니다.
 
-```bash
-cd viewliet
-corepack enable
-pnpm install --frozen-lockfile
-pnpm dev
-```
-
-- 화면: `http://localhost:3000`
-- API 키가 없어도 예시 공간은 확인할 수 있습니다.
-- 실제 사진 분석은 서버 환경변수 `OPENAI_API_KEY`가 필요합니다.
-
-### 검증 명령
-
-```bash
-cd viewliet
-pnpm typecheck
-pnpm test
-pnpm build
-```
-
-현재 Viewliet의 TypeScript 검사, 34개 테스트와 프로덕션 빌드를 통과했습니다.
-
----
-
-## 환경변수
-
-### `frontend/.env`
-
-```env
-VITE_API_URL=http://localhost:8000
-```
-
-### `backend/.env`
-
-```env
-FRONTEND_ORIGIN=http://localhost:5173
-OPENAI_API_KEY=
-```
-
-### `viewliet/.env.local`
-
-```env
-OPENAI_API_KEY=
-```
-
-실제 키는 Git에 커밋하지 않습니다. 저장소에는 값이 비어 있는 `.env.example`만 포함합니다.
-
----
 
 ## 데이터 및 3D 연동
 
