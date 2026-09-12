@@ -30,10 +30,10 @@ export default function LivingCost({ property }) {
         <div><label><input type="checkbox" checked={useTransport} onChange={e => setUseTransport(e.target.checked)} />교통비 추가 <small>선택</small></label><strong>{won(cost.transport)}</strong></div>
         <label className="living-fare">하루 1회 왕복비용 <input type="number" min="0" step="100" value={fare} disabled={!useTransport} onChange={e => setFare(e.target.value)} /> 원</label>
         <label className="living-fare">월 이용 일수 <input type="number" min="1" max="31" step="1" value={days} disabled={!useTransport} onChange={e => setDays(e.target.value)} /> 일</label>
-        <small>{!useTransport ? '선택하지 않아 총 비용에서 제외됩니다.' : cost.transport === null ? '왕복비용과 이용 일수(1~31일)를 확인해 주세요.' : `하루 왕복비용 × ${Number(days)}일 비용을 더합니다.`}</small>
+        <small>{!useTransport ? '교통비가 총 비용에서 제외됩니다.' : cost.transport === null ? '왕복비용과 이용 일수(1~31일)를 확인해 주세요.' : '교통비가 총 비용에 포함됩니다.'}</small>
       </div>
       <div className="living-total" aria-live="polite" aria-atomic="true"><div><strong>한 달 예상 총 비용</strong><small>월세 포함 · 교통비 {useTransport ? '포함' : '제외'}</small></div><output>{won(cost.total)}</output></div>
-      <details><summary>어떻게 계산했나요?</summary>
+      <details><summary>항목별 계산 방법 자세히 보기</summary>
         <p>공과금은 검증된 평균이나 공식 요금이 아닌 예시 사용량·단가로 계산하고, 100원 단위로 반올림합니다.</p>
         <ul><li>전기: (100 + 전용면적 × 2)kWh × 200원</li><li>취사용 가스: 3㎥ × 1,000원</li><li>난방: 전용면적 × 3kWh × 100원</li><li>온수: 2㎥ × 4,000원</li><li>수도: 5㎥ × 1,000원</li><li>인터넷: 월 20,000원</li></ul>
         <p>관리비 포함으로 등록된 항목은 자동으로 0원 처리합니다. 가스는 취사용만 가정하며, 실제 난방·온수·수도 청구 범위에 맞춘 중복 검증과 계절·지역 요금 반영은 아직 적용되지 않았습니다.</p>
