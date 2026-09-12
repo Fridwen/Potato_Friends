@@ -353,6 +353,10 @@ button {
   margin-top: 18px;
 }
 
+.page-map {
+  padding-bottom: 0;
+}
+
 .map-explorer {
   position: relative;
 }
@@ -372,6 +376,19 @@ button {
 .map-explorer .property-map {
   height: min(720px, 74vh);
   min-height: 590px;
+}
+
+.map-section > .map-explorer,
+.map-section > .map-loading {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+.map-section .property-map,
+.map-section > .map-loading {
+  border-inline: 0;
+  border-bottom: 0;
+  border-radius: 0;
 }
 
 .map-property-slider {

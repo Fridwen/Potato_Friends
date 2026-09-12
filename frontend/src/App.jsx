@@ -4,6 +4,7 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import SpaceModal from './space/SpaceModal'
 import Hero from './Hero'
+import LivingCost from './LivingCost.jsx'
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '')
 
@@ -437,6 +438,8 @@ function PropertyCard({ property, index, recommended = false, selected = false, 
           {property.options.map((option) => <span key={option}>{option}</span>)}
         </div>
 
+        <LivingCost property={property} />
+
         <div className="property-actions">
           <button type="button" className="floor-plan-button" disabled={property.id !== 1} onClick={() => property.id === 1 && setShowSpace(true)}>
             {property.id === 1 ? '평면도 · 3D 보기' : '3D 구현 예정'}
@@ -562,7 +565,7 @@ function App() {
   }
 
   return (
-    <div className="page">
+    <div className={`page${activeTab === 'explore' ? ' page-map' : ''}`}>
       <Hero />
 
       <nav className="main-tabs" aria-label="매물 보기 방식">
