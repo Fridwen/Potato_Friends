@@ -588,10 +588,9 @@ function App() {
     <div className="page">
       <header className="hero">
         <span className="badge">자취방 한눈에 비교하기 🔍</span>
-        <h1>나한테 맞는 방을<br />조건부터 골라보세요.</h1>
+        <h1>지금, 나에게 딱 맞는<br />자취방 찾기!</h1>
         <p>
-          월세만 보지 않고 가격·거리·면적을 함께 비교해
-          나에게 맞는 매물을 추천합니다.
+          예산부터 위치, 방 크기까지 한눈에 비교하고 마음에 드는 자취방을 찾아보세요.
         </p>
       </header>
 
