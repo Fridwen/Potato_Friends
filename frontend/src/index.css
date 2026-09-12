@@ -244,6 +244,10 @@ button {
   margin-top: 18px;
 }
 
+.map-explorer {
+  position: relative;
+}
+
 .property-map,
 .map-loading {
   width: 100%;
@@ -254,6 +258,163 @@ button {
   border-radius: 24px;
   background: #eef1f6;
   box-shadow: 0 18px 50px rgba(31, 42, 68, 0.09);
+}
+
+.map-explorer .property-map {
+  height: min(720px, 74vh);
+  min-height: 590px;
+}
+
+.map-property-slider {
+  position: absolute;
+  right: 70px;
+  bottom: 30px;
+  left: 70px;
+  z-index: 500;
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 8px calc(50% - 260px) 14px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.map-property-slider::-webkit-scrollbar { display: none; }
+
+.map-property-card {
+  display: grid;
+  grid-template-columns: 168px 1fr;
+  flex: 0 0 520px;
+  min-height: 196px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 14px 38px rgba(24, 32, 53, 0.28);
+  scroll-snap-align: center;
+  opacity: 0.78;
+  transform: scale(0.96);
+  transition: 180ms ease;
+}
+
+.map-property-card.selected {
+  border-color: #5362e7;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.map-property-card > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.map-property-card > div {
+  position: relative;
+  min-width: 0;
+  padding: 16px 17px;
+}
+
+.map-property-card h3 {
+  margin: 7px 0 5px;
+  font-size: 18px;
+}
+
+.map-property-card strong {
+  display: block;
+  color: #4655dc;
+  font-size: 15px;
+}
+
+.map-property-card p {
+  margin: 7px 0 4px;
+  color: #556176;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.map-property-card small {
+  display: block;
+  overflow: hidden;
+  color: #8a94a6;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.slider-compare {
+  margin-top: 10px;
+  border: 1px solid #dce1ea;
+  border-radius: 9px;
+  padding: 7px 10px;
+  background: white;
+  color: #334056;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.slider-compare.selected {
+  border-color: #5362e7;
+  background: #eef0ff;
+  color: #4453dc;
+}
+
+.slider-space-button {
+  margin: 10px 0 0 6px;
+  border: 1px solid #5362e7;
+  border-radius: 9px;
+  padding: 7px 10px;
+  background: #5362e7;
+  color: white;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.slider-space-button:disabled,
+.floor-plan-button:disabled {
+  border-color: #d9dee8;
+  background: #edf0f5;
+  color: #929bad;
+  cursor: default;
+}
+
+.map-slide-arrow {
+  position: absolute;
+  bottom: 104px;
+  z-index: 510;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: #172033;
+  color: white;
+  box-shadow: 0 8px 22px rgba(23, 32, 51, 0.3);
+  font-size: 32px;
+  line-height: 1;
+}
+
+.map-slide-arrow.previous { left: 22px; }
+.map-slide-arrow.next { right: 22px; }
+
+.map-slider-count {
+  position: absolute;
+  right: 24px;
+  top: 22px;
+  z-index: 510;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(23, 32, 51, 0.86);
+  color: white;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.property-marker-selected {
+  border-color: #fff;
+  background: #ef4444;
+  box-shadow: 0 7px 22px rgba(239, 68, 68, 0.52);
 }
 
 .map-loading {
@@ -550,7 +711,7 @@ button {
   right: 24px;
   bottom: 24px;
   left: 24px;
-  z-index: 80;
+  z-index: 1800;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -619,7 +780,7 @@ button {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 2000;
   display: grid;
   place-items: center;
   padding: 20px;
@@ -904,7 +1065,7 @@ button {
 
   .main-tabs {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     width: 100%;
   }
 
@@ -917,6 +1078,32 @@ button {
   .map-loading {
     min-height: 520px;
   }
+
+  .map-explorer .property-map {
+    min-height: 620px;
+  }
+
+  .map-property-slider {
+    right: 12px;
+    bottom: 18px;
+    left: 12px;
+    padding: 8px 10px 12px;
+  }
+
+  .map-property-card {
+    grid-template-columns: 112px 1fr;
+    flex-basis: calc(100vw - 70px);
+    min-height: 180px;
+  }
+
+  .map-slide-arrow {
+    bottom: 225px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .map-slide-arrow.previous { left: 14px; }
+  .map-slide-arrow.next { right: 14px; }
 
   .results-heading {
     align-items: flex-start;

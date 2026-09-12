@@ -1,0 +1,673 @@
+{
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "unit": {
+      "type": "string",
+      "const": "m"
+    },
+    "shell": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number"
+        },
+        "depth": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        },
+        "evidence": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "enum": [
+                "observed",
+                "inferred"
+              ],
+              "description": "Existence evidence only: observed means visible in a referenced photo even if all coordinates, size and orientation are estimated. inferred means existence itself is not visible."
+            },
+            "photos": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "photos",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "width",
+        "depth",
+        "height",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "zones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "enum": [
+              "방",
+              "화장실"
+            ]
+          },
+          "x": {
+            "type": "number"
+          },
+          "z": {
+            "type": "number"
+          },
+          "width": {
+            "type": "number"
+          },
+          "depth": {
+            "type": "number"
+          },
+          "evidence": {
+            "$ref": "#/definitions/studio_space_properties_shell_properties_evidence"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "x",
+          "z",
+          "width",
+          "depth",
+          "evidence"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 10
+    },
+    "partitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "axis": {
+            "type": "string",
+            "enum": [
+              "x",
+              "z"
+            ]
+          },
+          "x": {
+            "type": "number"
+          },
+          "z": {
+            "type": "number"
+          },
+          "length": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          },
+          "evidence": {
+            "$ref": "#/definitions/studio_space_properties_shell_properties_evidence"
+          }
+        },
+        "required": [
+          "id",
+          "axis",
+          "x",
+          "z",
+          "length",
+          "height",
+          "evidence"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 20
+    },
+    "openings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "door",
+              "window"
+            ]
+          },
+          "wallId": {
+            "type": "string"
+          },
+          "offset": {
+            "type": "number"
+          },
+          "width": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          },
+          "sill": {
+            "type": "number"
+          },
+          "evidence": {
+            "$ref": "#/definitions/studio_space_properties_shell_properties_evidence"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "wallId",
+          "offset",
+          "width",
+          "height",
+          "sill",
+          "evidence"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 30
+    },
+    "furniture": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "identity": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "bed",
+              "desk",
+              "chair",
+              "fridge",
+              "sink",
+              "washer",
+              "wardrobe",
+              "toilet",
+              "shower",
+              "other"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "x": {
+            "$ref": "#/definitions/studio_space_properties_zones_items_properties_x"
+          },
+          "z": {
+            "$ref": "#/definitions/studio_space_properties_zones_items_properties_z"
+          },
+          "width": {
+            "$ref": "#/definitions/studio_space_properties_zones_items_properties_width"
+          },
+          "depth": {
+            "$ref": "#/definitions/studio_space_properties_zones_items_properties_depth"
+          },
+          "height": {
+            "type": "number"
+          },
+          "rotation": {
+            "type": "number"
+          },
+          "evidence": {
+            "$ref": "#/definitions/studio_space_properties_shell_properties_evidence"
+          }
+        },
+        "required": [
+          "id",
+          "identity",
+          "kind",
+          "name",
+          "x",
+          "z",
+          "width",
+          "depth",
+          "height",
+          "rotation",
+          "evidence"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 50
+    },
+    "connections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "evidence": {
+            "$ref": "#/definitions/studio_space_properties_shell_properties_evidence"
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "evidence"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 30
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30
+    }
+  },
+  "required": [
+    "version",
+    "unit",
+    "shell",
+    "zones",
+    "partitions",
+    "openings",
+    "furniture",
+    "connections",
+    "assumptions"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "studio_space_properties_shell_properties_evidence": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "$ref": "#/definitions/studio_space_properties_shell_properties_evidence_properties_source"
+        },
+        "photos": {
+          "$ref": "#/definitions/studio_space_properties_shell_properties_evidence_properties_photos"
+        },
+        "reason": {
+          "$ref": "#/definitions/studio_space_properties_shell_properties_evidence_properties_reason"
+        }
+      },
+      "required": [
+        "source",
+        "photos",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "studio_space_properties_zones_items_properties_x": {
+      "type": "number"
+    },
+    "studio_space_properties_zones_items_properties_z": {
+      "type": "number"
+    },
+    "studio_space_properties_zones_items_properties_width": {
+      "type": "number"
+    },
+    "studio_space_properties_zones_items_properties_depth": {
+      "type": "number"
+    },
+    "studio_space_properties_shell_properties_evidence_properties_source": {
+      "type": "string",
+      "enum": [
+        "observed",
+        "inferred"
+      ],
+      "description": "Existence evidence only: observed means visible in a referenced photo even if all coordinates, size and orientation are estimated. inferred means existence itself is not visible."
+    },
+    "studio_space_properties_shell_properties_evidence_properties_photos": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/studio_space_properties_shell_properties_evidence_properties_photos_items"
+      }
+    },
+    "studio_space_properties_shell_properties_evidence_properties_reason": {
+      "type": "string"
+    },
+    "studio_space_properties_shell_properties_evidence_properties_photos_items": {
+      "type": "integer"
+    },
+    "studio_space": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "const": "1.0"
+        },
+        "unit": {
+          "type": "string",
+          "const": "m"
+        },
+        "shell": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "type": "number"
+            },
+            "depth": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "evidence": {
+              "type": "object",
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "observed",
+                    "inferred"
+                  ],
+                  "description": "Existence evidence only: observed means visible in a referenced photo even if all coordinates, size and orientation are estimated. inferred means existence itself is not visible."
+                },
+                "photos": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "reason": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "source",
+                "photos",
+                "reason"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "width",
+            "depth",
+            "height",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string",
+                "enum": [
+                  "방",
+                  "화장실"
+                ]
+              },
+              "x": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              },
+              "width": {
+                "type": "number"
+              },
+              "depth": {
+                "type": "number"
+              },
+              "evidence": {
+                "$ref": "#/definitions/studio_space_properties_shell_properties_evidence"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "x",
+              "z",
+              "width",
+              "depth",
+              "evidence"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 10
+        },
+        "partitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "axis": {
+                "type": "string",
+                "enum": [
+                  "x",
+                  "z"
+                ]
+              },
+              "x": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              },
+              "length": {
+                "type": "number"
+              },
+              "height": {
+                "type": "number"
+              },
+              "evidence": {
+                "$ref": "#/definitions/studio_space_properties_shell_properties_evidence"
+              }
+            },
+            "required": [
+              "id",
+              "axis",
+              "x",
+              "z",
+              "length",
+              "height",
+              "evidence"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 20
+        },
+        "openings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "door",
+                  "window"
+                ]
+              },
+              "wallId": {
+                "type": "string"
+              },
+              "offset": {
+                "type": "number"
+              },
+              "width": {
+                "type": "number"
+              },
+              "height": {
+                "type": "number"
+              },
+              "sill": {
+                "type": "number"
+              },
+              "evidence": {
+                "$ref": "#/definitions/studio_space_properties_shell_properties_evidence"
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "wallId",
+              "offset",
+              "width",
+              "height",
+              "sill",
+              "evidence"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 30
+        },
+        "furniture": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "identity": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "bed",
+                  "desk",
+                  "chair",
+                  "fridge",
+                  "sink",
+                  "washer",
+                  "wardrobe",
+                  "toilet",
+                  "shower",
+                  "other"
+                ]
+              },
+              "name": {
+                "type": "string"
+              },
+              "x": {
+                "$ref": "#/definitions/studio_space_properties_zones_items_properties_x"
+              },
+              "z": {
+                "$ref": "#/definitions/studio_space_properties_zones_items_properties_z"
+              },
+              "width": {
+                "$ref": "#/definitions/studio_space_properties_zones_items_properties_width"
+              },
+              "depth": {
+                "$ref": "#/definitions/studio_space_properties_zones_items_properties_depth"
+              },
+              "height": {
+                "type": "number"
+              },
+              "rotation": {
+                "type": "number"
+              },
+              "evidence": {
+                "$ref": "#/definitions/studio_space_properties_shell_properties_evidence"
+              }
+            },
+            "required": [
+              "id",
+              "identity",
+              "kind",
+              "name",
+              "x",
+              "z",
+              "width",
+              "depth",
+              "height",
+              "rotation",
+              "evidence"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 50
+        },
+        "connections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              },
+              "evidence": {
+                "$ref": "#/definitions/studio_space_properties_shell_properties_evidence"
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "evidence"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 30
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30
+        }
+      },
+      "required": [
+        "version",
+        "unit",
+        "shell",
+        "zones",
+        "partitions",
+        "openings",
+        "furniture",
+        "connections",
+        "assumptions"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

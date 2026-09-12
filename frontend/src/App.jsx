@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import SpaceModal from './space/SpaceModal'
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '')
 
@@ -169,6 +170,14 @@ const propertyMarker = L.divIcon({
   popupAnchor: [0, -34],
 })
 
+const selectedPropertyMarker = L.divIcon({
+  className: 'property-marker property-marker-selected',
+  html: '<span>⌂</span>',
+  iconSize: [46, 46],
+  iconAnchor: [23, 46],
+  popupAnchor: [0, -40],
+})
+
 function FitPropertyBounds({ properties }) {
   const map = useMap()
 
@@ -182,7 +191,18 @@ function FitPropertyBounds({ properties }) {
   return null
 }
 
-function PropertyMap({ properties }) {
+function FocusSelectedProperty({ position }) {
+  const map = useMap()
+
+  useEffect(() => {
+    if (position) map.flyTo(position, Math.max(map.getZoom(), 17), { duration: 0.65 })
+  }, [map, position])
+
+  return null
+}
+
+function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, onToggleCompare }) {
+  const [spaceProperty, setSpaceProperty] = useState(null)
   const markerPositions = properties.map((property, index) => {
     const earlierAtSameAddress = properties
       .slice(0, index)
@@ -192,27 +212,96 @@ function PropertyMap({ properties }) {
     return [property.latitude + offset, property.longitude + offset]
   })
 
+  const selectedIndex = Math.max(0, properties.findIndex((property) => property.id === selectedId))
+  const selectedPosition = markerPositions[selectedIndex]
+
+  const selectAt = (index) => {
+    const property = properties[index]
+    if (!property) return
+    onSelect(property.id)
+    document.getElementById(`map-property-${property.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  }
+
+  const syncMapToSlider = (event) => {
+    const slider = event.currentTarget
+    const center = slider.scrollLeft + slider.clientWidth / 2
+    let nearestIndex = 0
+    let nearestDistance = Infinity
+    Array.from(slider.children).forEach((card, index) => {
+      const cardCenter = card.offsetLeft + card.clientWidth / 2
+      const distance = Math.abs(center - cardCenter)
+      if (distance < nearestDistance) {
+        nearestDistance = distance
+        nearestIndex = index
+      }
+    })
+    const nearestProperty = properties[nearestIndex]
+    if (nearestProperty && nearestProperty.id !== selectedId) onSelect(nearestProperty.id)
+  }
+
   return (
-    <MapContainer className="property-map" center={[37.5861, 127.0304]} zoom={16} scrollWheelZoom>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <FitPropertyBounds properties={properties} />
-      {properties.map((property, index) => (
-        <Marker key={property.id} position={markerPositions[index]} icon={propertyMarker}>
-          <Popup minWidth={240}>
-            <div className="map-popup">
-              {property.images?.[0] && <img src={property.images[0]} alt="" />}
-              <span className={`transaction-type ${property.transaction_type === '전세' ? 'jeonse' : 'monthly'}`}>{property.transaction_type}</span>
-              <strong>{property.name}</strong>
-              <p>{property.transaction_type === '전세' ? `${property.deposit}만원` : `${property.deposit}/${property.rent}만원`} · {property.area}㎡</p>
-              <small>{property.address}</small>
-            </div>
-          </Popup>
-        </Marker>
-      ))}
-    </MapContainer>
+    <div className="map-explorer">
+      <MapContainer className="property-map" center={[37.5861, 127.0304]} zoom={16} scrollWheelZoom>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <FitPropertyBounds properties={properties} />
+        <FocusSelectedProperty position={selectedPosition} />
+        {properties.map((property, index) => (
+          <Marker
+            key={property.id}
+            position={markerPositions[index]}
+            icon={property.id === selectedId ? selectedPropertyMarker : propertyMarker}
+            eventHandlers={{ click: () => selectAt(index) }}
+          />
+        ))}
+      </MapContainer>
+
+      <button type="button" className="map-slide-arrow previous" onClick={() => selectAt((selectedIndex - 1 + properties.length) % properties.length)} aria-label="이전 매물">‹</button>
+      <div className="map-property-slider" aria-label="지도 매물 목록" onScroll={syncMapToSlider}>
+        {properties.map((property, index) => {
+          const monthlyCost = property.monthly_cost ?? property.rent + property.maintenance
+          const selected = property.id === selectedId
+          const inCompare = compareItems.some((item) => item.id === property.id)
+          return (
+            <article
+              id={`map-property-${property.id}`}
+              key={property.id}
+              className={selected ? 'map-property-card selected' : 'map-property-card'}
+              onClick={() => selectAt(index)}
+            >
+              <img src={property.images?.[0]} alt={`${property.name} 대표 사진`} />
+              <div>
+                <span className={`transaction-type ${property.transaction_type === '전세' ? 'jeonse' : 'monthly'}`}>{property.transaction_type}</span>
+                <h3>{property.name}</h3>
+                <strong>{property.transaction_type === '전세' ? `전세 ${property.deposit}만` : `${property.deposit}/${property.rent}만 · 월 총 ${monthlyCost}만`}</strong>
+                <p>{property.area}㎡ · 학교 {property.walk_time}분 · {property.room_type}</p>
+                <small>{property.address}</small>
+                <button
+                  type="button"
+                  className={inCompare ? 'slider-compare selected' : 'slider-compare'}
+                  onClick={(event) => { event.stopPropagation(); onToggleCompare(property) }}
+                >
+                  {inCompare ? '비교함에서 빼기' : '비교함에 담기'}
+                </button>
+                <button
+                  type="button"
+                  className="slider-space-button"
+                  disabled={property.id !== 1}
+                  onClick={(event) => { event.stopPropagation(); if (property.id === 1) setSpaceProperty(property) }}
+                >
+                  {property.id === 1 ? '평면도 · 3D 보기' : '3D 구현 예정'}
+                </button>
+              </div>
+            </article>
+          )
+        })}
+      </div>
+      <button type="button" className="map-slide-arrow next" onClick={() => selectAt((selectedIndex + 1) % properties.length)} aria-label="다음 매물">›</button>
+      <span className="map-slider-count">{selectedIndex + 1} / {properties.length}</span>
+      {spaceProperty && <SpaceModal property={spaceProperty} onClose={() => setSpaceProperty(null)} />}
+    </div>
   )
 }
 
@@ -299,7 +388,7 @@ function CompareModal({ properties, onClose, onRemove }) {
 
 function PropertyCard({ property, index, recommended = false, selected = false, onToggleCompare }) {
   const monthlyCost = property.monthly_cost ?? property.rent + property.maintenance
-  const [showFloorPlan, setShowFloorPlan] = useState(false)
+  const [showSpace, setShowSpace] = useState(false)
 
   return (
     <article className="property-card">
@@ -348,7 +437,9 @@ function PropertyCard({ property, index, recommended = false, selected = false, 
         </div>
 
         <div className="property-actions">
-          <button type="button" className="floor-plan-button" onClick={() => setShowFloorPlan(true)}>AI 평면도 보기</button>
+          <button type="button" className="floor-plan-button" disabled={property.id !== 1} onClick={() => property.id === 1 && setShowSpace(true)}>
+            {property.id === 1 ? '평면도 · 3D 보기' : '3D 구현 예정'}
+          </button>
           <button
             type="button"
             className={selected ? 'compare-button selected' : 'compare-button'}
@@ -358,7 +449,7 @@ function PropertyCard({ property, index, recommended = false, selected = false, 
           </button>
         </div>
       </div>
-      {showFloorPlan && <FloorPlanModal property={property} onClose={() => setShowFloorPlan(false)} />}
+      {showSpace && <SpaceModal property={property} onClose={() => setShowSpace(false)} />}
     </article>
   )
 }
@@ -387,9 +478,10 @@ function App() {
   const [compareItems, setCompareItems] = useState([])
   const [showCompare, setShowCompare] = useState(false)
   const [compareMessage, setCompareMessage] = useState('')
+  const [selectedMapPropertyId, setSelectedMapPropertyId] = useState(null)
 
   useEffect(() => {
-    if (!['all', 'map'].includes(activeTab) || allProperties.length) return
+    if (activeTab !== 'explore' || allProperties.length) return
 
     const loadAllProperties = async () => {
       setAllLoading(true)
@@ -407,6 +499,10 @@ function App() {
 
     loadAllProperties()
   }, [activeTab, allProperties.length])
+
+  useEffect(() => {
+    if (!selectedMapPropertyId && allProperties.length) setSelectedMapPropertyId(allProperties[0].id)
+  }, [allProperties, selectedMapPropertyId])
 
   const update = (key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -485,17 +581,10 @@ function App() {
         </button>
         <button
           type="button"
-          className={activeTab === 'all' ? 'active' : ''}
-          onClick={() => setActiveTab('all')}
+          className={activeTab === 'explore' ? 'active' : ''}
+          onClick={() => setActiveTab('explore')}
         >
-          전체 매물
-        </button>
-        <button
-          type="button"
-          className={activeTab === 'map' ? 'active' : ''}
-          onClick={() => setActiveTab('map')}
-        >
-          지도에서 찾기
+          전체 매물 · 지도
         </button>
       </nav>
 
@@ -589,41 +678,25 @@ function App() {
         </section>
       )}
 
-      {activeTab === 'all' && (
-        <section className="results-section all-properties-section">
-          <div className="results-heading">
-            <div>
-              <span className="badge">전체 매물</span>
-              <h2>{allLoading ? '매물을 불러오는 중이에요.' : `등록된 매물 ${allProperties.length}개`}</h2>
-            </div>
-            <p>조건과 관계없이 등록된 모든 매물을 확인하세요.</p>
-          </div>
-          {allError && <p className="error">{allError}</p>}
-          <div className="result-grid">
-            {allProperties.map((property, index) => (
-              <PropertyCard
-                key={property.id}
-                property={property}
-                index={index}
-                selected={compareItems.some((item) => item.id === property.id)}
-                onToggleCompare={toggleCompare}
-              />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {activeTab === 'map' && (
+      {activeTab === 'explore' && (
         <section className="map-section">
           <div className="results-heading">
             <div>
-              <span className="badge">지도에서 찾기</span>
-              <h2>학교 주변 매물을 한눈에 확인하세요.</h2>
+              <span className="badge">전체 매물 {allProperties.length}개</span>
+              <h2>지도 위에서 매물을 넘겨보세요.</h2>
             </div>
-            <p>마커를 선택하면 가격과 매물 정보를 볼 수 있습니다.</p>
+            <p>카드를 넘기면 해당 매물 위치로 지도가 이동합니다.</p>
           </div>
           {allError && <p className="error">{allError}</p>}
-          {allLoading ? <div className="map-loading">지도를 준비하고 있어요.</div> : <PropertyMap properties={allProperties} />}
+          {allLoading ? <div className="map-loading">지도를 준비하고 있어요.</div> : allProperties.length ? (
+            <PropertyMapExplorer
+              properties={allProperties}
+              selectedId={selectedMapPropertyId}
+              onSelect={setSelectedMapPropertyId}
+              compareItems={compareItems}
+              onToggleCompare={toggleCompare}
+            />
+          ) : !allError && <div className="map-loading">등록된 매물이 없습니다.</div>}
         </section>
       )}
 

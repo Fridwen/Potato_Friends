@@ -1,0 +1,669 @@
+{
+  "version": "1.0",
+  "unit": "m",
+  "shell": {
+    "width": 3.7,
+    "depth": 4.8,
+    "height": 2.35,
+    "evidence": {
+      "source": "observed",
+      "photos": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "reason": "창문과 수납장, 현관을 기준으로 실내 외곽을 연결했다."
+    }
+  },
+  "zones": [
+    {
+      "id": "bathroom",
+      "name": "화장실",
+      "x": 0,
+      "z": 3.15,
+      "width": 1.8,
+      "depth": 1.65,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          1,
+          4,
+          6
+        ],
+        "reason": "현관 옆 열린 문 안으로 세면대와 타일이 보인다."
+      }
+    },
+    {
+      "id": "room",
+      "name": "방",
+      "x": 0,
+      "z": 0,
+      "width": 3.7,
+      "depth": 3.15,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "reason": "침대와 가전 수납장이 하나의 열린 공간에 있다."
+      }
+    },
+    {
+      "id": "room-part-1",
+      "name": "방",
+      "x": 1.8,
+      "z": 3.15,
+      "width": 1.9000000000000001,
+      "depth": 1.65,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "reason": "침대와 가전 수납장이 하나의 열린 공간에 있다."
+      }
+    }
+  ],
+  "partitions": [
+    {
+      "id": "partition-0",
+      "axis": "x",
+      "x": 0,
+      "z": 3.15,
+      "length": 1.8,
+      "height": 2.35,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          3,
+          4,
+          5
+        ],
+        "reason": "텔레비전 뒤 회색 벽이 화장실을 구획한다."
+      }
+    },
+    {
+      "id": "partition-1",
+      "axis": "z",
+      "x": 1.8,
+      "z": 3.15,
+      "length": 1.65,
+      "height": 2.35,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          4,
+          6
+        ],
+        "reason": "현관 옆 화장실 출입문과 측벽이 보인다."
+      }
+    }
+  ],
+  "openings": [
+    {
+      "id": "opening-0",
+      "kind": "door",
+      "wallId": "south",
+      "offset": 2.45,
+      "width": 0.9,
+      "height": 2.05,
+      "sill": 0,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          4
+        ],
+        "reason": "도어클로저가 달린 금속 현관문이 보인다."
+      }
+    },
+    {
+      "id": "opening-1",
+      "kind": "door",
+      "wallId": "partition-1",
+      "offset": 0.28,
+      "width": 0.72,
+      "height": 2,
+      "sill": 0,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          4,
+          6
+        ],
+        "reason": "화장실 타일 바닥으로 이어지는 여닫이문이 보인다."
+      }
+    },
+    {
+      "id": "opening-2",
+      "kind": "window",
+      "wallId": "north",
+      "offset": 0.85,
+      "width": 1.65,
+      "height": 1.25,
+      "sill": 0.9,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          3,
+          5,
+          6
+        ],
+        "reason": "침대 옆 블라인드가 달린 미닫이창이 반복된다."
+      }
+    }
+  ],
+  "furniture": [
+    {
+      "id": "furniture-0",
+      "identity": "침대_01",
+      "kind": "bed",
+      "name": "흰색 침대",
+      "x": 1.05,
+      "z": 0.85,
+      "width": 1.4,
+      "depth": 2.05,
+      "height": 0.55,
+      "rotation": 90,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "reason": "창문 아래 침대의 머리판이 측벽에 붙어 있다."
+      }
+    },
+    {
+      "id": "furniture-1",
+      "identity": "협탁_01",
+      "kind": "other",
+      "name": "침대 옆 선반 탁자",
+      "x": 0.38,
+      "z": 1.92,
+      "width": 0.7,
+      "depth": 0.48,
+      "height": 0.58,
+      "rotation": 0,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          4,
+          5
+        ],
+        "reason": "침대 머리 옆에 물건을 올린 낮은 선반이 있다."
+      }
+    },
+    {
+      "id": "furniture-2",
+      "identity": "거실장_01",
+      "kind": "other",
+      "name": "흰색 텔레비전 수납장",
+      "x": 0.91,
+      "z": 2.93,
+      "width": 1.05,
+      "depth": 0.4,
+      "height": 0.4,
+      "rotation": 0,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          3,
+          4,
+          5
+        ],
+        "reason": "회색 벽 앞 텔레비전 아래 흰 수납장이 있다."
+      }
+    },
+    {
+      "id": "furniture-4",
+      "identity": "스툴_01",
+      "kind": "chair",
+      "name": "원목 스툴",
+      "x": 1.68,
+      "z": 2.83,
+      "width": 0.4,
+      "depth": 0.4,
+      "height": 0.46,
+      "rotation": 0,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "reason": "텔레비전 옆 원목 스툴에 검은 기기가 놓여 있다."
+      }
+    },
+    {
+      "id": "furniture-5",
+      "identity": "휴대기기_01",
+      "kind": "other",
+      "name": "스툴 위 노트북 묶음",
+      "x": 1.68,
+      "z": 2.83,
+      "width": 0.34,
+      "depth": 0.26,
+      "height": 0.1,
+      "rotation": 0,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          3,
+          4,
+          5
+        ],
+        "reason": "스툴 위에 얇은 검은 전자기기가 포개져 있다."
+      }
+    },
+    {
+      "id": "furniture-6",
+      "identity": "에어컨_01",
+      "kind": "other",
+      "name": "벽걸이 에어컨",
+      "x": 0.54,
+      "z": 3.02,
+      "width": 0.78,
+      "depth": 0.25,
+      "height": 0.3,
+      "rotation": 0,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          4,
+          5
+        ],
+        "reason": "회색 화장실 벽 상부에 에어컨이 설치되어 있다."
+      }
+    },
+    {
+      "id": "furniture-7",
+      "identity": "옷장_01",
+      "kind": "wardrobe",
+      "name": "키 큰 붙박이장",
+      "x": 3.3800000000000003,
+      "z": 0.85,
+      "width": 0.5,
+      "depth": 0.6,
+      "height": 2.25,
+      "rotation": 270,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          3,
+          5,
+          6
+        ],
+        "reason": "창문 쪽 수납장 끝에 긴 세로 문짝이 보인다."
+      }
+    },
+    {
+      "id": "furniture-8",
+      "identity": "책상_01",
+      "kind": "desk",
+      "name": "붙박이 화장대 겸 책상",
+      "x": 3.41,
+      "z": 1.43,
+      "width": 0.65,
+      "depth": 0.54,
+      "height": 0.75,
+      "rotation": 270,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          3
+        ],
+        "reason": "가전 옆 열린 하부 공간 위로 흰 상판이 있다."
+      }
+    },
+    {
+      "id": "furniture-9",
+      "identity": "책상하부수납_01",
+      "kind": "other",
+      "name": "책상 아래 서랍 수납함",
+      "x": 3.4,
+      "z": 1.43,
+      "width": 0.38,
+      "depth": 0.42,
+      "height": 0.6,
+      "rotation": 270,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          3
+        ],
+        "reason": "책상 아래 작은 흰 서랍들이 쌓여 있다."
+      }
+    },
+    {
+      "id": "furniture-11",
+      "identity": "세탁기_01",
+      "kind": "washer",
+      "name": "드럼 세탁기",
+      "x": 3.365,
+      "z": 2.08,
+      "width": 0.6,
+      "depth": 0.63,
+      "height": 0.85,
+      "rotation": 270,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          3,
+          6
+        ],
+        "reason": "책상 옆 상판 아래 원형 문 세탁기가 있다."
+      }
+    },
+    {
+      "id": "furniture-12",
+      "identity": "건조기_01",
+      "kind": "other",
+      "name": "드럼형 건조기 추정 가전",
+      "x": 3.365,
+      "z": 2.7,
+      "width": 0.6,
+      "depth": 0.63,
+      "height": 0.85,
+      "rotation": 270,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          3,
+          6
+        ],
+        "reason": "세탁기와 냉장고 사이에 두 번째 원형 문 가전이 있다."
+      }
+    },
+    {
+      "id": "furniture-13",
+      "identity": "가전상판_01",
+      "kind": "other",
+      "name": "가전 위 작업 상판",
+      "x": 3.355,
+      "z": 2.39,
+      "width": 1.25,
+      "depth": 0.65,
+      "height": 0.1,
+      "rotation": 270,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          3,
+          6
+        ],
+        "reason": "두 드럼형 가전 위로 연속된 상판이 보인다."
+      }
+    },
+    {
+      "id": "furniture-14",
+      "identity": "전자레인지_01",
+      "kind": "other",
+      "name": "전자레인지",
+      "x": 3.43,
+      "z": 1.98,
+      "width": 0.47,
+      "depth": 0.4,
+      "height": 0.3,
+      "rotation": 270,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          3,
+          6
+        ],
+        "reason": "가전 상판 위 검은 전면의 전자레인지가 보인다."
+      }
+    },
+    {
+      "id": "furniture-16",
+      "identity": "냉장고_01",
+      "kind": "fridge",
+      "name": "흰색 두 문 냉장고",
+      "x": 3.355,
+      "z": 3.34,
+      "width": 0.62,
+      "depth": 0.65,
+      "height": 1.8,
+      "rotation": 270,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          3,
+          6
+        ],
+        "reason": "현관 가까운 수납장 끝에 두 문 냉장고가 있다."
+      }
+    },
+    {
+      "id": "furniture-17",
+      "identity": "선풍기_01",
+      "kind": "other",
+      "name": "스탠드 선풍기",
+      "x": 2.73,
+      "z": 2.43,
+      "width": 0.44,
+      "depth": 0.44,
+      "height": 1.05,
+      "rotation": 270,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          3,
+          4,
+          6
+        ],
+        "reason": "드럼형 가전 앞에 흰 선풍기가 놓여 있다."
+      }
+    },
+    {
+      "id": "furniture-18",
+      "identity": "수거함_01",
+      "kind": "other",
+      "name": "천 수거함",
+      "x": 2.13,
+      "z": 4.36,
+      "width": 0.45,
+      "depth": 0.42,
+      "height": 0.65,
+      "rotation": 0,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          2,
+          4
+        ],
+        "reason": "현관과 화장실 문 사이에 베이지색 천 함이 있다."
+      }
+    },
+    {
+      "id": "furniture-19",
+      "identity": "세면대_01",
+      "kind": "sink",
+      "name": "욕실 세면대",
+      "x": 0.31,
+      "z": 3.65,
+      "width": 0.6,
+      "depth": 0.48,
+      "height": 0.8,
+      "rotation": 90,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          1,
+          4
+        ],
+        "reason": "욕실 입구에서 흰 세면대와 수전이 보인다."
+      }
+    },
+    {
+      "id": "furniture-20",
+      "identity": "보조수조_01",
+      "kind": "sink",
+      "name": "스테인리스 보조 수조",
+      "x": 0.28,
+      "z": 4.23,
+      "width": 0.42,
+      "depth": 0.45,
+      "height": 0.8,
+      "rotation": 90,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          1
+        ],
+        "reason": "세면대와 변기 사이에 사각 금속 수조가 있다."
+      }
+    },
+    {
+      "id": "furniture-21",
+      "identity": "변기_01",
+      "kind": "toilet",
+      "name": "양변기",
+      "x": 0.93,
+      "z": 4.4,
+      "width": 0.42,
+      "depth": 0.7,
+      "height": 0.78,
+      "rotation": 0,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          1
+        ],
+        "reason": "금속 수조 옆에 뚜껑을 올린 양변기가 있다."
+      }
+    },
+    {
+      "id": "furniture-22",
+      "identity": "샤워기_01",
+      "kind": "shower",
+      "name": "세면대 연결 핸드 샤워기",
+      "x": 0.095,
+      "z": 3.35,
+      "width": 0.15,
+      "depth": 0.15,
+      "height": 1.8,
+      "rotation": 90,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          1
+        ],
+        "reason": "세면대 호스와 왼쪽 벽 샤워 슬라이드바가 보인다."
+      }
+    },
+    {
+      "id": "furniture-23",
+      "identity": "욕실거울_01",
+      "kind": "other",
+      "name": "욕실 대형 거울",
+      "x": 0.095,
+      "z": 3.79,
+      "width": 0.88,
+      "depth": 0.15,
+      "height": 1,
+      "rotation": 90,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          1
+        ],
+        "reason": "세면대 위 벽에 큰 직사각형 거울이 있다."
+      }
+    },
+    {
+      "id": "furniture-24",
+      "identity": "욕실수납장_01",
+      "kind": "other",
+      "name": "욕실 세로 수납장",
+      "x": 0.145,
+      "z": 4.43,
+      "width": 0.35,
+      "depth": 0.25,
+      "height": 0.95,
+      "rotation": 90,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          1
+        ],
+        "reason": "거울 옆 금속 수조 위로 흰 세로 장이 보인다."
+      }
+    },
+    {
+      "id": "furniture-25",
+      "identity": "욕실선반_01",
+      "kind": "other",
+      "name": "욕실 벽 선반",
+      "x": 1.67,
+      "z": 4.24,
+      "width": 0.5,
+      "depth": 0.24,
+      "height": 0.55,
+      "rotation": 270,
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          1
+        ],
+        "reason": "변기 오른쪽 벽에 세면용품을 둔 선반들이 있다."
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "room",
+      "to": "bathroom",
+      "evidence": {
+        "source": "observed",
+        "photos": [
+          4,
+          6
+        ],
+        "reason": "방에서 화장실로 직접 이어지는 문이 열려 있다."
+      }
+    }
+  ],
+  "loft": null,
+  "assumptions": [
+    "평면도와 실측값이 없어 창문 벽을 북쪽으로 정하고 치수와 천장 높이를 추정했다. 외곽 면적은 17.76㎡로 제공 면적의 92.79%이다.",
+    "현관·냉장고·회색 벽을 공통 기준으로 역방향 사진을 정합했으며 화장실은 현관 서쪽으로 배치했다. 욕실 내부 깊이와 설비 좌표는 불확실하다.",
+    "두 번째 드럼형 가전은 건조기로 추정했다. 주방 상판에서 별도 싱크볼이나 조리기는 확인되지 않아 추가하지 않았다.",
+    "책상 위 흐림 처리된 벽면 물체의 기능은 확인되지 않아 패널로 표시했다.",
+    "상부장·에어컨·거울·선반은 벽걸이이며 텔레비전·전자레인지·노트북은 각각 수납장·상판·스툴 위에 있다. 높이 좌표 필드가 없어 평면상 지지물과 겹친다.",
+    "사진의 흰 바닥과 벽, 회색 강조벽 및 욕실 타일은 확인되지만 정확한 마감 재료와 이동식 물품의 고정 위치는 알 수 없다.",
+    "외곽 가로세로 비율과 절대 치수는 사진을 바탕으로 추정했습니다. 벽 두께는 면적 산정에서 생략했습니다.",
+    "평면도·사진 근거가 없는 공간·칸막이·문·창문·가구는 배치하지 않았습니다. 빈 영역은 미확인 영역이며 추가 방을 의미하지 않습니다.",
+    "사진에 보이는 벽·문·창문·가구는 구현하며, 위치·크기·방향은 필요에 따라 추정합니다. 문은 개구부만 표시하며 문짝·손잡이·열림 방향은 표시하지 않습니다.",
+    "전체 외곽은 입력 전용면적보다 최대 20% 작은 면적을 허용한 추정 경계입니다. 시점 이동은 확인된 공간 사이의 가상 이동이며 실제 출입 경로를 보장하지 않습니다."
+  ],
+  "area": 19.14,
+  "corrections": [
+    "전체 외곽 면적은 입력 전용면적의 80~100%를 허용하며, 범위를 벗어날 때만 면적을 보정합니다. 평면도·사진에서 확인한 공간만 표시하며, 나머지 영역에 이름이나 칸막이를 추가하지 않습니다.",
+    "외곽 밖 좌표·음수 크기·회전·천장 높이를 검증하고 유효 범위로 보정했습니다."
+  ]
+}
