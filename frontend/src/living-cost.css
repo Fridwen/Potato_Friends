@@ -1,0 +1,33 @@
+.living-cost { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--ink); }
+.living-heading { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.living-heading h3 { margin:0; font-size:22px; }
+.living-heading > span { padding:5px 8px; background:#f5ecd6; color:#685a39; font-size:11px; border-radius:8px; }
+.living-subtitle { color:var(--muted); font-size:13px; line-height:1.6; }
+.living-basis { background:var(--surface-muted); padding:12px; border-radius:10px; font-size:12px; margin-bottom:12px; }
+.living-cost table { width:100%; border-collapse:collapse; font-size:13px; }
+.living-cost th,.living-cost td { padding:13px 0; text-align:left; border-bottom:1px solid var(--line); }
+.living-cost thead th { color:var(--muted); font-size:11px; }
+.living-cost tbody th { width:44%; padding-right:6px; }
+.living-cost td:nth-child(2) { font-size:11px; color:var(--muted); }
+.living-cost tr > :last-child { text-align:right; font-weight:800; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.living-cost th small { display:block; font-size:11px; color:var(--muted); font-weight:400; line-height:1.6; margin-top:4px; }
+.living-cost td.living-included { color:var(--accent-ink); }
+.living-transport { background:var(--surface-muted); border-radius:12px; padding:14px; margin-top:18px; }
+.living-transport > div { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.living-transport label { display:flex; align-items:center; gap:7px; font-size:13px; }
+.living-transport small { font-size:11px; color:var(--muted); }
+.living-transport > small { display:block; margin-top:10px; }
+.living-transport input[type=checkbox] { accent-color:var(--accent); width:18px; height:18px; }
+.living-transport .living-fare { margin-top:14px; flex-wrap:wrap; font-size:12px; }
+.living-fare input { width:95px; min-width:0; border:1px solid var(--line); border-radius:7px; padding:7px; font-size:16px; background:var(--surface); color:var(--ink); }
+.living-fare input:disabled { opacity:.5; }
+.living-total { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:18px; background:var(--accent-soft); border-radius:14px; margin-top:20px; }
+.living-total strong { font-size:14px; }
+.living-total small { display:block; font-size:11px; margin-top:6px; color:var(--accent-ink); }
+.living-total output { color:var(--accent-ink); font-size:27px; font-weight:900; font-variant-numeric:tabular-nums; }
+.living-cost details { margin-top:16px; color:var(--muted); font-size:12px; line-height:1.8; }
+.living-cost summary { cursor:pointer; font-weight:700; }
+.living-cost ul { padding-left:20px; }
+.living-note { font-size:11px; color:#786641; line-height:1.7; }
+.living-sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+@media(pointer:coarse) { .living-transport label { min-height:44px; } }

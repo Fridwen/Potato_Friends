@@ -6,6 +6,7 @@ import SpaceModal from './space/SpaceModal'
 import MapPropertyDetailModal from './MapPropertyDetailModal'
 import './recommend-map-actions.css'
 import Hero from './Hero'
+import LivingCost from './LivingCost.jsx'
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
 
@@ -443,6 +444,8 @@ function PropertyCard({ property, index, recommended = false, selected = false, 
           {property.options.map((option) => <span key={option}>{option}</span>)}
         </div>
 
+        <LivingCost property={property} />
+
         <div className="property-actions">
           {recommended && onShowOnMap && (
             <button type="button" className="compare-button" onClick={() => onShowOnMap(property)}>지도에서 보기</button>
@@ -587,7 +590,7 @@ function App() {
   }
 
   return (
-    <div className="page">
+    <div className={`page${activeTab === 'explore' ? ' page-map' : ''}`}>
       <Hero />
 
       <nav className="main-tabs" aria-label="매물 보기 방식">
