@@ -26,6 +26,25 @@ function NumberField({ label, value, onChange, unit, min = 0, step = 1 }) {
   )
 }
 
+function RangeField({ label, minValue, maxValue, onMinChange, onMaxChange, minUnit, maxUnit, step = 1 }) {
+  return (
+    <div className="field">
+      <span>{label}</span>
+      <div className="range-inputs">
+        <div className="input-wrap">
+          <input type="number" min="0" step={step} value={minValue} onChange={(e) => onMinChange(Number(e.target.value))} />
+          <b>{minUnit}</b>
+        </div>
+        <span className="range-separator">~</span>
+        <div className="input-wrap">
+          <input type="number" min="0" step={step} value={maxValue} onChange={(e) => onMaxChange(Number(e.target.value))} />
+          <b>{maxUnit}</b>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function WeightSlider({ label, value, onChange }) {
   return (
     <label className="weight-row">
@@ -456,10 +475,13 @@ function PropertyCard({ property, index, recommended = false, selected = false, 
 
 function App() {
   const [form, setForm] = useState({
+    min_deposit: 0,
     max_deposit: 1000,
+    min_rent: 0,
     max_rent: 60,
     max_maintenance: 10,
     min_area: 18,
+    max_area: 40,
     max_walk_time: 15,
     required_options: ['에어컨', '세탁기'],
     price_weight: 50,
@@ -599,10 +621,10 @@ function App() {
           </div>
 
           <div className="field-grid">
-            <NumberField label="보증금" value={form.max_deposit} onChange={(v) => update('max_deposit', v)} unit="만원 이하" />
-            <NumberField label="월세" value={form.max_rent} onChange={(v) => update('max_rent', v)} unit="만원 이하" />
+            <RangeField label="보증금" minValue={form.min_deposit} maxValue={form.max_deposit} onMinChange={(v) => update('min_deposit', v)} onMaxChange={(v) => update('max_deposit', v)} minUnit="만원 이상" maxUnit="만원 이하" />
+            <RangeField label="월세" minValue={form.min_rent} maxValue={form.max_rent} onMinChange={(v) => update('min_rent', v)} onMaxChange={(v) => update('max_rent', v)} minUnit="만원 이상" maxUnit="만원 이하" />
             <NumberField label="관리비" value={form.max_maintenance} onChange={(v) => update('max_maintenance', v)} unit="만원 이하" />
-            <NumberField label="최소 면적" value={form.min_area} onChange={(v) => update('min_area', v)} unit="㎡ 이상" step="0.1" />
+            <RangeField label="면적" minValue={form.min_area} maxValue={form.max_area} onMinChange={(v) => update('min_area', v)} onMaxChange={(v) => update('max_area', v)} minUnit="㎡ 이상" maxUnit="㎡ 이하" step="0.1" />
             <NumberField label="학교까지" value={form.max_walk_time} onChange={(v) => update('max_walk_time', v)} unit="분 이내" min="1" />
           </div>
         </section>
