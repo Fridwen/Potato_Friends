@@ -1,7 +1,17 @@
+/* Cream, sage and warm wood tones from the 3D space viewer. */
 :root {
+  --page: #e7e9df;
+  --surface: #fffdf7;
+  --surface-muted: #f0f1e9;
+  --ink: #303c34;
+  --muted: #697467;
+  --line: #dedfd6;
+  --accent: #577461;
+  --accent-ink: #46614e;
+  --accent-soft: #e1ecd5;
   font-family: Pretendard, "Noto Sans KR", Arial, sans-serif;
-  color: #172033;
-  background: #f6f8fc;
+  color: var(--ink);
+  background: var(--page);
   font-synthesis: none;
 }
 
@@ -39,8 +49,8 @@ button {
   display: inline-flex;
   padding: 8px 12px;
   border-radius: 999px;
-  background: #ecefff;
-  color: #4f5de4;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
   font-size: 13px;
   font-weight: 800;
 }
@@ -55,7 +65,7 @@ button {
 .hero p,
 .section-title p,
 .results-heading p {
-  color: #748096;
+  color: var(--muted);
   line-height: 1.7;
 }
 
@@ -64,9 +74,9 @@ button {
   gap: 6px;
   margin-bottom: 24px;
   padding: 6px;
-  border: 1px solid #e2e7f0;
+  border: 1px solid var(--line);
   border-radius: 15px;
-  background: white;
+  background: var(--surface);
 }
 
 .main-tabs button {
@@ -74,27 +84,27 @@ button {
   border-radius: 10px;
   padding: 11px 20px;
   background: transparent;
-  color: #748096;
+  color: var(--muted);
   font-weight: 900;
 }
 
 .main-tabs button.active {
-  background: #5362e7;
+  background: var(--accent);
   color: white;
 }
 
 .filter-card {
   padding: 34px;
-  border: 1px solid #e2e7f0;
+  border: 1px solid var(--line);
   border-radius: 26px;
-  background: white;
-  box-shadow: 0 18px 50px rgba(31, 42, 68, 0.07);
+  background: var(--surface);
+  box-shadow: 0 18px 50px rgba(48, 60, 52, 0.07);
 }
 
 .filter-card section + section {
   margin-top: 32px;
   padding-top: 30px;
-  border-top: 1px solid #edf0f5;
+  border-top: 1px solid var(--surface-muted);
 }
 
 .section-title {
@@ -111,8 +121,8 @@ button {
   height: 32px;
   flex: 0 0 auto;
   border-radius: 10px;
-  background: #eef0ff;
-  color: #4f5de4;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
   font-weight: 900;
 }
 
@@ -154,9 +164,9 @@ button {
 .input-wrap {
   display: flex;
   align-items: center;
-  border: 1px solid #dde3ee;
+  border: 1px solid var(--line);
   border-radius: 14px;
-  background: #fbfcfe;
+  background: var(--surface);
   overflow: hidden;
 }
 
@@ -168,12 +178,12 @@ button {
   padding: 14px 16px;
   background: transparent;
   font-weight: 800;
-  color: #172033;
+  color: var(--ink);
 }
 
 .input-wrap b {
   padding-right: 14px;
-  color: #7a869b;
+  color: var(--muted);
   white-space: nowrap;
   font-size: 13px;
 }
@@ -186,17 +196,17 @@ button {
 
 .option {
   padding: 11px 15px;
-  border: 1px solid #dfe4ed;
+  border: 1px solid var(--line);
   border-radius: 999px;
-  background: white;
-  color: #677389;
+  background: var(--surface);
+  color: var(--muted);
   font-weight: 800;
 }
 
 .option.active {
-  border-color: #5665eb;
-  background: #eef0ff;
-  color: #4453dc;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
 }
 
 .weights {
@@ -213,11 +223,11 @@ button {
 }
 
 .weight-row input {
-  accent-color: #5362e7;
+  accent-color: var(--accent);
 }
 
 .weight-row strong {
-  color: #5362e7;
+  color: var(--accent);
   text-align: right;
 }
 
@@ -227,7 +237,7 @@ button {
   border: 0;
   border-radius: 16px;
   padding: 17px 20px;
-  background: #5362e7;
+  background: var(--accent);
   color: white;
   font-size: 16px;
   font-weight: 900;
@@ -266,10 +276,10 @@ button {
   height: min(620px, 68vh);
   min-height: 460px;
   overflow: hidden;
-  border: 1px solid #dfe4ed;
+  border: 1px solid var(--line);
   border-radius: 24px;
-  background: #eef1f6;
-  box-shadow: 0 18px 50px rgba(31, 42, 68, 0.09);
+  background: var(--surface-muted);
+  box-shadow: 0 18px 50px rgba(48, 60, 52, 0.09);
 }
 
 .map-explorer .property-map {
@@ -301,8 +311,8 @@ button {
   overflow: hidden;
   border: 2px solid transparent;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.97);
-  box-shadow: 0 14px 38px rgba(24, 32, 53, 0.28);
+  background: rgba(255, 253, 247, 0.97);
+  box-shadow: 0 14px 38px rgba(48, 60, 52, 0.28);
   scroll-snap-align: center;
   opacity: 0.78;
   transform: scale(0.96);
@@ -310,7 +320,7 @@ button {
 }
 
 .map-property-card.selected {
-  border-color: #5362e7;
+  border-color: var(--accent);
   opacity: 1;
   transform: scale(1);
 }
@@ -334,13 +344,13 @@ button {
 
 .map-property-card strong {
   display: block;
-  color: #4655dc;
+  color: var(--accent-ink);
   font-size: 15px;
 }
 
 .map-property-card p {
   margin: 7px 0 4px;
-  color: #556176;
+  color: var(--muted);
   font-size: 13px;
   font-weight: 800;
 }
@@ -348,7 +358,7 @@ button {
 .map-property-card small {
   display: block;
   overflow: hidden;
-  color: #8a94a6;
+  color: var(--muted);
   font-size: 11px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -356,27 +366,27 @@ button {
 
 .slider-compare {
   margin-top: 10px;
-  border: 1px solid #dce1ea;
+  border: 1px solid var(--line);
   border-radius: 9px;
   padding: 7px 10px;
-  background: white;
-  color: #334056;
+  background: var(--surface);
+  color: var(--ink);
   font-size: 12px;
   font-weight: 900;
 }
 
 .slider-compare.selected {
-  border-color: #5362e7;
-  background: #eef0ff;
-  color: #4453dc;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
 }
 
 .slider-space-button {
   margin: 10px 0 0 6px;
-  border: 1px solid #5362e7;
+  border: 1px solid var(--accent);
   border-radius: 9px;
   padding: 7px 10px;
-  background: #5362e7;
+  background: var(--accent);
   color: white;
   font-size: 12px;
   font-weight: 900;
@@ -384,9 +394,9 @@ button {
 
 .slider-space-button:disabled,
 .floor-plan-button:disabled {
-  border-color: #d9dee8;
-  background: #edf0f5;
-  color: #929bad;
+  border-color: var(--line);
+  background: var(--surface-muted);
+  color: #7b8276;
   cursor: default;
 }
 
@@ -400,9 +410,9 @@ button {
   height: 46px;
   border: 0;
   border-radius: 50%;
-  background: #172033;
+  background: var(--ink);
   color: white;
-  box-shadow: 0 8px 22px rgba(23, 32, 51, 0.3);
+  box-shadow: 0 8px 22px rgba(48, 60, 52, 0.3);
   font-size: 32px;
   line-height: 1;
 }
@@ -417,7 +427,7 @@ button {
   z-index: 510;
   padding: 7px 11px;
   border-radius: 999px;
-  background: rgba(23, 32, 51, 0.86);
+  background: rgba(48, 60, 52, 0.86);
   color: white;
   font-size: 12px;
   font-weight: 900;
@@ -432,7 +442,7 @@ button {
 .map-loading {
   display: grid;
   place-items: center;
-  color: #748096;
+  color: var(--muted);
   font-weight: 800;
 }
 
@@ -441,9 +451,9 @@ button {
   place-items: center;
   border: 3px solid white;
   border-radius: 50% 50% 50% 8px;
-  background: #5362e7;
+  background: var(--accent);
   color: white;
-  box-shadow: 0 5px 15px rgba(31, 42, 68, 0.3);
+  box-shadow: 0 5px 15px rgba(48, 60, 52, 0.3);
   transform: rotate(-45deg);
 }
 
@@ -468,12 +478,12 @@ button {
 
 .map-popup p {
   margin: 7px 0;
-  color: #4f5de4;
+  color: var(--accent-ink);
   font-weight: 900;
 }
 
 .map-popup small {
-  color: #748096;
+  color: var(--muted);
   line-height: 1.4;
 }
 
@@ -502,16 +512,16 @@ button {
 
 .property-card {
   overflow: hidden;
-  border: 1px solid #e2e7f0;
+  border: 1px solid var(--line);
   border-radius: 22px;
-  background: white;
-  box-shadow: 0 14px 35px rgba(31, 42, 68, 0.06);
+  background: var(--surface);
+  box-shadow: 0 14px 35px rgba(48, 60, 52, 0.06);
 }
 
 .image-box {
   position: relative;
   aspect-ratio: 16 / 9;
-  background: #eef1f6;
+  background: var(--surface-muted);
 }
 
 .image-box img {
@@ -530,7 +540,7 @@ button {
   height: 38px;
   border: 0;
   border-radius: 50%;
-  background: rgba(23, 32, 51, 0.72);
+  background: rgba(48, 60, 52, 0.72);
   color: white;
   font-size: 28px;
   line-height: 1;
@@ -567,7 +577,7 @@ button {
 }
 
 .image-dot.active {
-  background: white;
+  background: var(--surface);
 }
 
 .image-count {
@@ -576,7 +586,7 @@ button {
   bottom: 12px;
   padding: 5px 8px;
   border-radius: 999px;
-  background: rgba(23, 32, 51, 0.72);
+  background: rgba(48, 60, 52, 0.72);
   color: white;
   font-size: 12px;
   font-weight: 800;
@@ -588,7 +598,7 @@ button {
   height: 100%;
   display: grid;
   place-items: center;
-  color: #7a869b;
+  color: var(--muted);
   font-weight: 800;
 }
 
@@ -604,14 +614,14 @@ button {
 
 .rank {
   left: 14px;
-  background: #172033;
+  background: var(--ink);
   color: white;
 }
 
 .score {
   right: 14px;
-  background: white;
-  color: #4b5ae3;
+  background: var(--surface);
+  color: var(--accent-ink);
 }
 
 .property-body {
@@ -626,7 +636,7 @@ button {
 }
 
 .property-head small {
-  color: #8993a5;
+  color: var(--muted);
   font-weight: 700;
 }
 
@@ -645,8 +655,8 @@ button {
 }
 
 .transaction-type.jeonse {
-  color: #1d4ed8;
-  background: #dbeafe;
+  color: #426965;
+  background: #e2eeea;
 }
 
 .property-head h3 {
@@ -655,7 +665,7 @@ button {
 }
 
 .property-head > strong {
-  color: #4d5ce3;
+  color: var(--accent-ink);
   white-space: nowrap;
 }
 
@@ -670,8 +680,8 @@ button {
 .tags span {
   padding: 7px 9px;
   border-radius: 9px;
-  background: #f4f6f9;
-  color: #58657a;
+  background: var(--surface-muted);
+  color: var(--muted);
   font-size: 12px;
   font-weight: 800;
 }
@@ -679,14 +689,14 @@ button {
 .reasons {
   margin: 0;
   padding-left: 19px;
-  color: #4f5b70;
+  color: var(--muted);
   line-height: 1.8;
   font-size: 14px;
 }
 
 .property-description {
   margin: 0 0 16px;
-  color: #4f5b70;
+  color: var(--muted);
   font-size: 14px;
   line-height: 1.65;
 }
@@ -699,23 +709,23 @@ button {
 }
 
 .tags span {
-  background: #eef0ff;
-  color: #5362df;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
 }
 
 .compare-button {
-  border: 1px solid #dce1ea;
+  border: 1px solid var(--line);
   border-radius: 12px;
   padding: 12px;
-  background: white;
-  color: #334056;
+  background: var(--surface);
+  color: var(--ink);
   font-weight: 900;
 }
 
 .compare-button.selected {
-  border-color: #5362e7;
-  background: #eef0ff;
-  color: #4453dc;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
 }
 
 .compare-tray {
@@ -733,9 +743,9 @@ button {
   padding: 16px 18px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 18px;
-  background: rgba(23, 32, 51, 0.95);
+  background: rgba(48, 60, 52, 0.95);
   color: white;
-  box-shadow: 0 18px 50px rgba(17, 24, 39, 0.3);
+  box-shadow: 0 18px 50px rgba(48, 60, 52, 0.3);
   backdrop-filter: blur(12px);
 }
 
@@ -747,7 +757,7 @@ button {
 
 .compare-tray span {
   overflow: hidden;
-  color: #cbd3e1;
+  color: #dde4d6;
   font-size: 13px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -763,7 +773,7 @@ button {
   border: 0;
   border-radius: 12px;
   padding: 12px 16px;
-  background: #6675f0;
+  background: var(--accent);
   color: white;
   font-weight: 900;
 }
@@ -781,10 +791,10 @@ button {
 }
 
 .floor-plan-button {
-  border: 1px solid #5362e7;
+  border: 1px solid var(--accent);
   border-radius: 12px;
   padding: 12px;
-  background: #5362e7;
+  background: var(--accent);
   color: white;
   font-weight: 900;
 }
@@ -796,7 +806,7 @@ button {
   display: grid;
   place-items: center;
   padding: 20px;
-  background: rgba(17, 24, 39, 0.66);
+  background: rgba(48, 60, 52, 0.66);
 }
 
 .floor-plan-modal {
@@ -806,7 +816,7 @@ button {
   overflow-y: auto;
   padding: 30px;
   border-radius: 24px;
-  background: white;
+  background: var(--surface);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
 }
 
@@ -817,7 +827,7 @@ button {
   overflow-y: auto;
   padding: 30px;
   border-radius: 24px;
-  background: white;
+  background: var(--surface);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
 }
 
@@ -873,7 +883,7 @@ button {
   min-width: 650px;
   border-spacing: 0;
   border-collapse: separate;
-  border: 1px solid #e2e7f0;
+  border: 1px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
 }
@@ -882,8 +892,8 @@ button {
 .compare-table td {
   min-width: 160px;
   padding: 13px;
-  border-right: 1px solid #e8ecf2;
-  border-bottom: 1px solid #e8ecf2;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   text-align: center;
   vertical-align: middle;
 }
@@ -901,15 +911,15 @@ button {
 .compare-table tbody th,
 .compare-table thead > tr > th:first-child {
   min-width: 100px;
-  background: #f7f8fc;
-  color: #68758a;
+  background: var(--surface-muted);
+  color: var(--muted);
   font-size: 13px;
 }
 
 .compare-table tbody th small {
   display: block;
   margin-top: 4px;
-  color: #9aa3b2;
+  color: var(--muted);
   font-size: 10px;
   font-weight: 700;
 }
@@ -938,12 +948,12 @@ button {
 }
 
 .compare-table td.comparison-same {
-  background: #f7f8fc;
+  background: var(--surface-muted);
 }
 
 .compare-table .comparison-same em {
-  background: #e8ecf2;
-  color: #68758a;
+  background: var(--line);
+  color: var(--muted);
 }
 
 .compare-table thead img {
@@ -977,8 +987,8 @@ button {
   height: 38px;
   border: 0;
   border-radius: 50%;
-  background: #eef1f6;
-  color: #334056;
+  background: var(--surface-muted);
+  color: var(--ink);
   font-size: 25px;
 }
 
@@ -986,8 +996,8 @@ button {
   display: inline-flex;
   padding: 6px 10px;
   border-radius: 999px;
-  background: #eef0ff;
-  color: #4f5de4;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
   font-size: 12px;
   font-weight: 900;
 }
@@ -996,7 +1006,7 @@ button {
 
 .plan-summary,
 .plan-notice {
-  color: #748096;
+  color: var(--muted);
   line-height: 1.6;
 }
 
@@ -1004,11 +1014,11 @@ button {
   width: 100%;
   margin-top: 12px;
   border-radius: 16px;
-  background: #f8fafc;
+  background: var(--surface);
 }
 
 .floor-plan text {
-  fill: #334056;
+  fill: var(--ink);
   font-size: 18px;
   font-weight: 800;
   text-anchor: middle;
@@ -1019,19 +1029,19 @@ button {
 .floor-plan .plan-room,
 .floor-plan .plan-bath,
 .floor-plan .plan-kitchen {
-  stroke: #334056;
+  stroke: var(--ink);
   stroke-width: 7;
 }
 
-.floor-plan .plan-wall { fill: white; }
-.floor-plan .plan-room { fill: #eef0ff; }
-.floor-plan .plan-bath { fill: #dff4ff; }
-.floor-plan .plan-kitchen { fill: #fff2d8; }
-.floor-plan .plan-door { fill: none; stroke: #e08a3e; stroke-width: 5; }
-.floor-plan .plan-window { stroke: #46a2dc; stroke-width: 11; }
-.floor-plan .plan-entry { fill: none; stroke: #5362e7; stroke-width: 5; }
+.floor-plan .plan-wall { fill: var(--surface); }
+.floor-plan .plan-room { fill: var(--accent-soft); }
+.floor-plan .plan-bath { fill: #dce5e4; }
+.floor-plan .plan-kitchen { fill: #eee3cc; }
+.floor-plan .plan-door { fill: none; stroke: #a88961; stroke-width: 5; }
+.floor-plan .plan-window { stroke: #90b8b5; stroke-width: 11; }
+.floor-plan .plan-entry { fill: none; stroke: var(--accent); stroke-width: 5; }
 .floor-plan .plan-window-label,
-.floor-plan .plan-entry-label { font-size: 13px; fill: #748096; }
+.floor-plan .plan-entry-label { font-size: 13px; fill: var(--muted); }
 
 .plan-notice {
   margin: 12px 0 0;
@@ -1121,4 +1131,15 @@ button {
     align-items: flex-start;
     flex-direction: column;
   }
+}
+
+/* Keep keyboard navigation visible against the pastel surfaces. */
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.input-wrap:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
