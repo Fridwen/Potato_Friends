@@ -4,7 +4,7 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import SpaceModal from './space/SpaceModal'
 
-const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '')
+const API_URL = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
 
 const OPTION_LIST = ['풀옵션', '에어컨', '세탁기', '냉장고', '엘리베이터', '주차']
 
@@ -431,7 +431,7 @@ function PropertyCard({ property, index, recommended = false, selected = false, 
           <strong>
             {property.transaction_type === '전세'
               ? `전세 ${property.deposit}만`
-              : `월 ${monthlyCost}만`}
+              : `${property.deposit}/${property.rent}만`}
           </strong>
         </div>
 
