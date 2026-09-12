@@ -3,6 +3,7 @@ import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import SpaceModal from './space/SpaceModal'
+import MapPropertyDetailModal from './MapPropertyDetailModal'
 import './recommend-map-actions.css'
 import Hero from './Hero'
 
@@ -52,13 +53,7 @@ function WeightSlider({ label, value, onChange }) {
   return (
     <label className="weight-row">
       <span>{label}</span>
-      <input
-        type="range"
-        min="0"
-        max="100"
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-      />
+      <input type="range" min="0" max="100" value={value} onChange={(e) => onChange(Number(e.target.value))} />
       <strong>{value}</strong>
     </label>
   )
@@ -68,45 +63,18 @@ function PropertyImageCarousel({ property }) {
   const [current, setCurrent] = useState(0)
   const images = property.images?.length ? property.images : []
 
-  if (!images.length) {
-    return <div className="image-placeholder">사진 없음</div>
-  }
+  if (!images.length) return <div className="image-placeholder">사진 없음</div>
 
-  const prevImage = () => {
-    setCurrent((prev) => (prev - 1 + images.length) % images.length)
-  }
-
-  const nextImage = () => {
-    setCurrent((prev) => (prev + 1) % images.length)
-  }
+  const prevImage = () => setCurrent((prev) => (prev - 1 + images.length) % images.length)
+  const nextImage = () => setCurrent((prev) => (prev + 1) % images.length)
 
   return (
     <>
-      <img
-        src={images[current]}
-        alt={`${property.name} 사진 ${current + 1}`}
-      />
-
+      <img src={images[current]} alt={`${property.name} 사진 ${current + 1}`} />
       {images.length > 1 && (
         <>
-          <button
-            type="button"
-            className="image-nav image-nav-left"
-            onClick={prevImage}
-            aria-label="이전 사진"
-          >
-            ‹
-          </button>
-
-          <button
-            type="button"
-            className="image-nav image-nav-right"
-            onClick={nextImage}
-            aria-label="다음 사진"
-          >
-            ›
-          </button>
-
+          <button type="button" className="image-nav image-nav-left" onClick={prevImage} aria-label="이전 사진">‹</button>
+          <button type="button" className="image-nav image-nav-right" onClick={nextImage} aria-label="다음 사진">›</button>
           <div className="image-dots">
             {images.map((_, index) => (
               <button
@@ -118,68 +86,10 @@ function PropertyImageCarousel({ property }) {
               />
             ))}
           </div>
-
-          <span className="image-count">
-            {current + 1} / {images.length}
-          </span>
+          <span className="image-count">{current + 1} / {images.length}</span>
         </>
       )}
     </>
-  )
-}
-
-function EstimatedFloorPlan({ property }) {
-  const isTwoRoom = property.rooms >= 2
-  const isSeparated = property.room_type === '분리형'
-
-  return (
-    <svg className="floor-plan" viewBox="0 0 640 420" role="img" aria-label={`${property.name} 추정 평면도`}>
-      <rect className="plan-wall" x="20" y="20" width="600" height="380" rx="4" />
-      <rect className="plan-bath" x="35" y="35" width="155" height="125" />
-      <text x="112" y="102">욕실</text>
-      <path className="plan-door" d="M190 120 A40 40 0 0 1 150 160" />
-      <rect className="plan-kitchen" x="35" y="175" width={isSeparated ? 200 : 155} height="105" />
-      <text x={isSeparated ? 135 : 112} y="233">주방</text>
-
-      {isTwoRoom ? (
-        <>
-          <rect className="plan-room" x="255" y="35" width="350" height="165" />
-          <text x="430" y="123">방 1</text>
-          <rect className="plan-room" x="255" y="215" width="350" height="170" />
-          <text x="430" y="306">방 2</text>
-          <path className="plan-door" d="M255 160 A40 40 0 0 1 295 200" />
-          <path className="plan-door" d="M255 255 A40 40 0 0 0 295 215" />
-        </>
-      ) : (
-        <>
-          <rect className="plan-room" x={isSeparated ? 255 : 205} y="35" width={isSeparated ? 350 : 400} height="350" />
-          <text x="430" y="210">생활 공간</text>
-          {isSeparated && <path className="plan-door" d="M255 245 A40 40 0 0 1 295 285" />}
-        </>
-      )}
-
-      <line className="plan-window" x1="390" y1="20" x2="535" y2="20" />
-      <text className="plan-window-label" x="462" y="48">창문</text>
-      <path className="plan-entry" d="M35 350 L35 400 M35 350 A50 50 0 0 1 85 400" />
-      <text className="plan-entry-label" x="92" y="380">현관</text>
-    </svg>
-  )
-}
-
-function FloorPlanModal({ property, onClose }) {
-  return (
-    <div className="modal-backdrop" role="presentation" onMouseDown={onClose}>
-      <section className="floor-plan-modal" role="dialog" aria-modal="true" aria-labelledby={`floor-plan-title-${property.id}`} onMouseDown={(e) => e.stopPropagation()}>
-        <button type="button" className="modal-close" onClick={onClose} aria-label="평면도 닫기">×</button>
-        <span className="ai-label">AI 추정 평면도</span>
-        <h2 id={`floor-plan-title-${property.id}`}>{property.name}</h2>
-        <p className="plan-summary">
-          전용 {property.area}㎡ · 방 {property.rooms ?? 1}개 · 욕실 {property.bathrooms ?? 1}개 · {property.room_type ?? '구조 미상'}
-        </p>
-        <EstimatedFloorPlan property={property} />
-        <p className="plan-notice">사진 및 매물 정보를 바탕으로 구성한 참고용 추정도입니다. 실제 구조와 치수는 다를 수 있습니다.</p>
-      </section>
-    </div>
   )
 }
 
@@ -224,6 +134,7 @@ function FocusSelectedProperty({ position }) {
 
 function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, onToggleCompare }) {
   const [spaceProperty, setSpaceProperty] = useState(null)
+  const [detailProperty, setDetailProperty] = useState(null)
   const ignoreSliderScroll = useRef(false)
   const releaseScrollTimer = useRef(null)
 
@@ -278,6 +189,7 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
     const center = slider.scrollLeft + slider.clientWidth / 2
     let nearestIndex = 0
     let nearestDistance = Infinity
+
     Array.from(slider.children).forEach((card, index) => {
       const cardCenter = card.offsetLeft + card.clientWidth / 2
       const distance = Math.abs(center - cardCenter)
@@ -286,8 +198,14 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
         nearestIndex = index
       }
     })
+
     const nearestProperty = properties[nearestIndex]
     if (nearestProperty && nearestProperty.id !== selectedId) onSelect(nearestProperty.id)
+  }
+
+  const open3DFromDetail = (property) => {
+    setDetailProperty(null)
+    setSpaceProperty(property)
   }
 
   return (
@@ -310,11 +228,13 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
       </MapContainer>
 
       <button type="button" className="map-slide-arrow previous" onClick={() => selectAt((selectedIndex - 1 + properties.length) % properties.length)} aria-label="이전 매물">‹</button>
+
       <div className="map-property-slider" aria-label="지도 매물 목록" onScroll={syncMapToSlider}>
         {properties.map((property, index) => {
           const monthlyCost = property.monthly_cost ?? property.rent + property.maintenance
           const selected = property.id === selectedId
           const inCompare = compareItems.some((item) => item.id === property.id)
+
           return (
             <article
               id={`map-property-${property.id}`}
@@ -326,31 +246,66 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
               <div>
                 <span className={`transaction-type ${property.transaction_type === '전세' ? 'jeonse' : 'monthly'}`}>{property.transaction_type}</span>
                 <h3>{property.name}</h3>
-                <strong>{property.transaction_type === '전세' ? `전세 ${property.deposit}만` : `${property.deposit}/${property.rent}만 · 월 총 ${monthlyCost}만`}</strong>
+                <strong>
+                  {property.transaction_type === '전세'
+                    ? `전세 ${property.deposit}만`
+                    : `${property.deposit}/${property.rent}만 · 월 총 ${monthlyCost}만`}
+                </strong>
                 <p>{property.area}㎡ · 학교 {property.walk_time}분 · {property.room_type}</p>
                 <small>{property.address}</small>
-                <button
-                  type="button"
-                  className={inCompare ? 'slider-compare selected' : 'slider-compare'}
-                  onClick={(event) => { event.stopPropagation(); onToggleCompare(property) }}
-                >
-                  {inCompare ? '비교함에서 빼기' : '비교함에 담기'}
-                </button>
-                <button
-                  type="button"
-                  className="slider-space-button"
-                  disabled={property.id !== 1}
-                  onClick={(event) => { event.stopPropagation(); if (property.id === 1) setSpaceProperty(property) }}
-                >
-                  {property.id === 1 ? '평면도 · 3D 보기' : '3D 구현 예정'}
-                </button>
+
+                <div className="map-card-actions">
+                  <button
+                    type="button"
+                    className="slider-detail-button"
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      setDetailProperty(property)
+                    }}
+                  >
+                    상세 정보 보기
+                  </button>
+                  <button
+                    type="button"
+                    className={inCompare ? 'slider-compare selected' : 'slider-compare'}
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      onToggleCompare(property)
+                    }}
+                  >
+                    {inCompare ? '비교함에서 빼기' : '비교함에 담기'}
+                  </button>
+                  <button
+                    type="button"
+                    className="slider-space-button"
+                    disabled={property.id !== 1}
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      if (property.id === 1) setSpaceProperty(property)
+                    }}
+                  >
+                    {property.id === 1 ? '3D 공간 보기' : '3D 구현 예정'}
+                  </button>
+                </div>
               </div>
             </article>
           )
         })}
       </div>
+
       <button type="button" className="map-slide-arrow next" onClick={() => selectAt((selectedIndex + 1 + properties.length) % properties.length)} aria-label="다음 매물">›</button>
       <span className="map-slider-count">{selectedIndex + 1} / {properties.length}</span>
+
+      {detailProperty && (
+        <MapPropertyDetailModal
+          property={detailProperty}
+          onClose={() => setDetailProperty(null)}
+          inCompare={compareItems.some((item) => item.id === detailProperty.id)}
+          onToggleCompare={onToggleCompare}
+          onOpen3D={open3DFromDetail}
+        />
+      )}
+
       {spaceProperty && <SpaceModal property={spaceProperty} onClose={() => setSpaceProperty(null)} />}
     </div>
   )
@@ -438,7 +393,6 @@ function CompareModal({ properties, onClose, onRemove }) {
 }
 
 function PropertyCard({ property, index, recommended = false, selected = false, onToggleCompare, onShowOnMap }) {
-  const monthlyCost = property.monthly_cost ?? property.rent + property.maintenance
   const [showSpace, setShowSpace] = useState(false)
 
   return (
@@ -460,11 +414,7 @@ function PropertyCard({ property, index, recommended = false, selected = false, 
             </small>
             <h3>{property.name}</h3>
           </div>
-          <strong>
-            {property.transaction_type === '전세'
-              ? `전세 ${property.deposit}만`
-              : `${property.deposit}/${property.rent}만`}
-          </strong>
+          <strong>{property.transaction_type === '전세' ? `전세 ${property.deposit}만` : `${property.deposit}/${property.rent}만`}</strong>
         </div>
 
         <div className="facts">
@@ -489,22 +439,17 @@ function PropertyCard({ property, index, recommended = false, selected = false, 
 
         <div className="property-actions">
           {recommended && onShowOnMap && (
-            <button type="button" className="compare-button" onClick={() => onShowOnMap(property)}>
-              지도에서 보기
-            </button>
+            <button type="button" className="compare-button" onClick={() => onShowOnMap(property)}>지도에서 보기</button>
           )}
           <button type="button" className="floor-plan-button" disabled={property.id !== 1} onClick={() => property.id === 1 && setShowSpace(true)}>
-            {property.id === 1 ? '평면도 · 3D 보기' : '3D 구현 예정'}
+            {property.id === 1 ? '3D 공간 보기' : '3D 구현 예정'}
           </button>
-          <button
-            type="button"
-            className={selected ? 'compare-button selected' : 'compare-button'}
-            onClick={() => onToggleCompare(property)}
-          >
+          <button type="button" className={selected ? 'compare-button selected' : 'compare-button'} onClick={() => onToggleCompare(property)}>
             {selected ? '비교함에서 빼기' : '비교함에 담기'}
           </button>
         </div>
       </div>
+
       {showSpace && <SpaceModal property={property} onClose={() => setShowSpace(false)} />}
     </article>
   )
@@ -550,7 +495,7 @@ function App() {
         const response = await fetch(`${API_URL}/api/properties`)
         if (!response.ok) throw new Error('전체 매물 요청에 실패했습니다.')
         setAllProperties(await response.json())
-      } catch (err) {
+      } catch {
         setAllError('전체 매물을 불러올 수 없습니다.')
       } finally {
         setAllLoading(false)
@@ -564,9 +509,7 @@ function App() {
     if (!selectedMapPropertyId && allProperties.length) setSelectedMapPropertyId(allProperties[0].id)
   }, [allProperties, selectedMapPropertyId])
 
-  const update = (key, value) => {
-    setForm((prev) => ({ ...prev, [key]: value }))
-  }
+  const update = (key, value) => setForm((prev) => ({ ...prev, [key]: value }))
 
   const toggleOption = (option) => {
     setForm((prev) => ({
@@ -601,9 +544,8 @@ function App() {
       try {
         const response = await fetch(`${API_URL}/api/properties`)
         if (!response.ok) throw new Error('전체 매물 요청에 실패했습니다.')
-        const loadedProperties = await response.json()
-        setAllProperties(loadedProperties)
-      } catch (err) {
+        setAllProperties(await response.json())
+      } catch {
         setAllError('전체 매물을 불러올 수 없습니다.')
       } finally {
         setAllLoading(false)
@@ -613,12 +555,10 @@ function App() {
     setActiveTab('explore')
   }
 
-  const removeCompareItem = (id) => {
-    setCompareItems((current) => current.filter((item) => item.id !== id))
-  }
+  const removeCompareItem = (id) => setCompareItems((current) => current.filter((item) => item.id !== id))
 
-  const submit = async (e) => {
-    e.preventDefault()
+  const submit = async (event) => {
+    event.preventDefault()
     setLoading(true)
     setError('')
 
@@ -630,11 +570,10 @@ function App() {
       })
 
       if (!response.ok) throw new Error('추천 요청에 실패했습니다.')
-
       const data = await response.json()
       setResults(data.results)
       setSearched(true)
-    } catch (err) {
+    } catch {
       setError('백엔드에 연결할 수 없습니다.')
     } finally {
       setLoading(false)
@@ -646,104 +585,83 @@ function App() {
       <Hero />
 
       <nav className="main-tabs" aria-label="매물 보기 방식">
-        <button
-          type="button"
-          className={activeTab === 'recommend' ? 'active' : ''}
-          onClick={() => setActiveTab('recommend')}
-        >
+        <button type="button" className={activeTab === 'recommend' ? 'active' : ''} onClick={() => setActiveTab('recommend')}>
           <span className="main-tab-caption">내 조건에 맞는</span>{' '}
           <span className="main-tab-title">자취방 추천</span>
         </button>
-        <button
-          type="button"
-          className={activeTab === 'explore' ? 'active' : ''}
-          onClick={() => setActiveTab('explore')}
-        >
+        <button type="button" className={activeTab === 'explore' ? 'active' : ''} onClick={() => setActiveTab('explore')}>
           <span className="main-tab-caption">한눈에 보는</span>{' '}
           <span className="main-tab-title">매물 지도</span>
         </button>
       </nav>
 
-      {activeTab === 'recommend' && <form className="filter-card" onSubmit={submit}>
-        <section>
-          <div className="section-title">
-            <span>1</span>
-            <div>
-              <h2>예산과 기본 조건</h2>
-              <p>원하는 조건을 먼저 입력해 주세요.</p>
+      {activeTab === 'recommend' && (
+        <form className="filter-card" onSubmit={submit}>
+          <section>
+            <div className="section-title">
+              <span>1</span>
+              <div>
+                <h2>예산과 기본 조건</h2>
+                <p>원하는 조건을 먼저 입력해 주세요.</p>
+              </div>
             </div>
-          </div>
 
-          <div className="transaction-filter" role="group" aria-label="거래 유형 선택">
-            <strong>거래 유형</strong>
+            <div className="transaction-filter" role="group" aria-label="거래 유형 선택">
+              <strong>거래 유형</strong>
+              <div className="option-list">
+                {TRANSACTION_TYPES.map((type) => (
+                  <button type="button" key={type} className={form.transaction_type === type ? 'option active' : 'option'} onClick={() => update('transaction_type', type)}>
+                    {type}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="field-grid">
+              <RangeField label="보증금" minValue={form.min_deposit} maxValue={form.max_deposit} onMinChange={(v) => update('min_deposit', v)} onMaxChange={(v) => update('max_deposit', v)} minUnit="만원 이상" maxUnit="만원 이하" />
+              <RangeField label="월세" minValue={form.min_rent} maxValue={form.max_rent} onMinChange={(v) => update('min_rent', v)} onMaxChange={(v) => update('max_rent', v)} minUnit="만원 이상" maxUnit="만원 이하" />
+              <NumberField label="관리비" value={form.max_maintenance} onChange={(v) => update('max_maintenance', v)} unit="만원 이하" />
+              <RangeField label="면적" minValue={form.min_area} maxValue={form.max_area} onMinChange={(v) => update('min_area', v)} onMaxChange={(v) => update('max_area', v)} minUnit="㎡ 이상" maxUnit="㎡ 이하" step="0.1" />
+              <NumberField label="학교까지" value={form.max_walk_time} onChange={(v) => update('max_walk_time', v)} unit="분 이내" min="1" />
+            </div>
+          </section>
+
+          <section>
+            <div className="section-title">
+              <span>2</span>
+              <div>
+                <h2>필수 옵션</h2>
+                <p>반드시 있었으면 하는 옵션만 선택하세요.</p>
+              </div>
+            </div>
             <div className="option-list">
-              {TRANSACTION_TYPES.map((type) => (
-                <button
-                  type="button"
-                  key={type}
-                  className={form.transaction_type === type ? 'option active' : 'option'}
-                  onClick={() => update('transaction_type', type)}
-                >
-                  {type}
+              {OPTION_LIST.map((option) => (
+                <button type="button" key={option} className={form.required_options.includes(option) ? 'option active' : 'option'} onClick={() => toggleOption(option)}>
+                  {option}
                 </button>
               ))}
             </div>
-          </div>
+          </section>
 
-          <div className="field-grid">
-            <RangeField label="보증금" minValue={form.min_deposit} maxValue={form.max_deposit} onMinChange={(v) => update('min_deposit', v)} onMaxChange={(v) => update('max_deposit', v)} minUnit="만원 이상" maxUnit="만원 이하" />
-            <RangeField label="월세" minValue={form.min_rent} maxValue={form.max_rent} onMinChange={(v) => update('min_rent', v)} onMaxChange={(v) => update('max_rent', v)} minUnit="만원 이상" maxUnit="만원 이하" />
-            <NumberField label="관리비" value={form.max_maintenance} onChange={(v) => update('max_maintenance', v)} unit="만원 이하" />
-            <RangeField label="면적" minValue={form.min_area} maxValue={form.max_area} onMinChange={(v) => update('min_area', v)} onMaxChange={(v) => update('max_area', v)} minUnit="㎡ 이상" maxUnit="㎡ 이하" step="0.1" />
-            <NumberField label="학교까지" value={form.max_walk_time} onChange={(v) => update('max_walk_time', v)} unit="분 이내" min="1" />
-          </div>
-        </section>
-
-        <section>
-          <div className="section-title">
-            <span>2</span>
-            <div>
-              <h2>필수 옵션</h2>
-              <p>반드시 있었으면 하는 옵션만 선택하세요.</p>
+          <section>
+            <div className="section-title">
+              <span>3</span>
+              <div>
+                <h2>무엇이 더 중요한가요?</h2>
+                <p>슬라이더에 따라 추천 순위가 달라집니다.</p>
+              </div>
             </div>
-          </div>
-
-          <div className="option-list">
-            {OPTION_LIST.map((option) => (
-              <button
-                type="button"
-                key={option}
-                className={form.required_options.includes(option) ? 'option active' : 'option'}
-                onClick={() => toggleOption(option)}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <div className="section-title">
-            <span>3</span>
-            <div>
-              <h2>무엇이 더 중요한가요?</h2>
-              <p>슬라이더에 따라 추천 순위가 달라집니다.</p>
+            <div className="weights">
+              <WeightSlider label="가격" value={form.price_weight} onChange={(v) => update('price_weight', v)} />
+              <WeightSlider label="거리" value={form.distance_weight} onChange={(v) => update('distance_weight', v)} />
+              <WeightSlider label="넓이" value={form.area_weight} onChange={(v) => update('area_weight', v)} />
             </div>
-          </div>
+          </section>
 
-          <div className="weights">
-            <WeightSlider label="가격" value={form.price_weight} onChange={(v) => update('price_weight', v)} />
-            <WeightSlider label="거리" value={form.distance_weight} onChange={(v) => update('distance_weight', v)} />
-            <WeightSlider label="넓이" value={form.area_weight} onChange={(v) => update('area_weight', v)} />
-          </div>
-        </section>
-
-        <button className="submit-button" disabled={loading}>
-          {loading ? '추천 계산 중...' : '나에게 맞는 방 찾기'}
-        </button>
-
-        {error && <p className="error">{error}</p>}
-      </form>}
+          <button className="submit-button" disabled={loading}>{loading ? '추천 계산 중...' : '나에게 맞는 방 찾기'}</button>
+          {error && <p className="error">{error}</p>}
+        </form>
+      )}
 
       {activeTab === 'recommend' && searched && (
         <section className="results-section">
@@ -780,8 +698,11 @@ function App() {
             </div>
             <p>카드를 넘기면 해당 매물 위치로 지도가 이동합니다.</p>
           </div>
+
           {allError && <p className="error">{allError}</p>}
-          {allLoading ? <div className="map-loading">지도를 준비하고 있어요.</div> : allProperties.length ? (
+          {allLoading ? (
+            <div className="map-loading">지도를 준비하고 있어요.</div>
+          ) : allProperties.length ? (
             <PropertyMapExplorer
               properties={allProperties}
               selectedId={selectedMapPropertyId}
@@ -789,7 +710,9 @@ function App() {
               compareItems={compareItems}
               onToggleCompare={toggleCompare}
             />
-          ) : !allError && <div className="map-loading">등록된 매물이 없습니다.</div>}
+          ) : !allError && (
+            <div className="map-loading">등록된 매물이 없습니다.</div>
+          )}
         </section>
       )}
 
@@ -807,11 +730,7 @@ function App() {
       )}
 
       {showCompare && (
-        <CompareModal
-          properties={compareItems}
-          onClose={() => setShowCompare(false)}
-          onRemove={removeCompareItem}
-        />
+        <CompareModal properties={compareItems} onClose={() => setShowCompare(false)} onRemove={removeCompareItem} />
       )}
     </div>
   )
