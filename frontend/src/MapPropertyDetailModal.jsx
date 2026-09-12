@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import './map-property-detail.css'
 
+const THREE_D_PROPERTY_IDS = new Set([1, 10])
+
 export default function MapPropertyDetailModal({ property, onClose, inCompare, onToggleCompare, onOpen3D }) {
   const images = property.images?.length ? property.images : []
   const [currentImage, setCurrentImage] = useState(0)
   const monthlyCost = property.monthly_cost ?? property.rent + property.maintenance
+  const has3D = THREE_D_PROPERTY_IDS.has(property.id)
 
   useEffect(() => {
     setCurrentImage(0)
@@ -114,8 +117,8 @@ export default function MapPropertyDetailModal({ property, onClose, inCompare, o
             <button type="button" className={inCompare ? 'selected' : ''} onClick={() => onToggleCompare(property)}>
               {inCompare ? '비교함에서 빼기' : '비교함에 담기'}
             </button>
-            <button type="button" className="primary" disabled={property.id !== 1} onClick={() => property.id === 1 && onOpen3D(property)}>
-              {property.id === 1 ? '3D 공간 보기' : '3D 구현 예정'}
+            <button type="button" className="primary" disabled={!has3D} onClick={() => has3D && onOpen3D(property)}>
+              {has3D ? '3D 공간 보기' : '3D 구현 예정'}
             </button>
           </div>
         </div>
