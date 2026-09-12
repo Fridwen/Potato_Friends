@@ -7,6 +7,7 @@ import MapPropertyDetailModal from './MapPropertyDetailModal'
 import './recommend-map-actions.css'
 import Hero from './Hero'
 import LivingCost from './LivingCost.jsx'
+import { calculateLivingCost, won } from './livingCost.js'
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
 
@@ -425,6 +426,12 @@ function CompareModal({ properties, onClose, onRemove }) {
                   })}
                 </tr>
               ))}
+              <tr className="comparison-monthly-total">
+                <th scope="row">한 달 총 예상 비용<small>예시 기준 · 교통비 제외</small></th>
+                {properties.map(item => (
+                  <td key={item.id}><strong>{won(calculateLivingCost(item).total)}</strong></td>
+                ))}
+              </tr>
             </tbody>
           </table>
         </div>
