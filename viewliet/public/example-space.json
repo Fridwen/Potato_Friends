@@ -1,0 +1,290 @@
+{
+  "version": "1.0",
+  "unit": "m",
+  "shell": {
+    "width": 4,
+    "depth": 5,
+    "height": 2.4,
+    "evidence": {
+      "source": "inferred",
+      "photos": [],
+      "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+    }
+  },
+  "zones": [
+    {
+      "id": "bath",
+      "name": "화장실",
+      "x": 2.5,
+      "z": 0,
+      "width": 1.5,
+      "depth": 1.7,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    },
+    {
+      "id": "living",
+      "name": "방",
+      "x": 0,
+      "z": 1.7,
+      "width": 4,
+      "depth": 3.3,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    },
+    {
+      "id": "living-part-1",
+      "name": "방",
+      "x": 0,
+      "z": 0,
+      "width": 2.5,
+      "depth": 1.7,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    }
+  ],
+  "partitions": [
+    {
+      "id": "partition-0",
+      "axis": "z",
+      "x": 2.5,
+      "z": 0,
+      "length": 1.7,
+      "height": 2.4,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    },
+    {
+      "id": "partition-1",
+      "axis": "x",
+      "x": 2.5,
+      "z": 1.7,
+      "length": 1.5,
+      "height": 2.4,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    }
+  ],
+  "openings": [
+    {
+      "id": "opening-0",
+      "kind": "door",
+      "wallId": "north",
+      "offset": 0.3,
+      "width": 0.85,
+      "height": 2.05,
+      "sill": 0,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    },
+    {
+      "id": "opening-1",
+      "kind": "door",
+      "wallId": "partition-1",
+      "offset": 0.2,
+      "width": 0.75,
+      "height": 2,
+      "sill": 0,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    },
+    {
+      "id": "opening-2",
+      "kind": "window",
+      "wallId": "south",
+      "offset": 1,
+      "width": 2,
+      "height": 1.25,
+      "sill": 0.85,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    }
+  ],
+  "furniture": [
+    {
+      "id": "furniture-0",
+      "identity": "bed-1",
+      "kind": "bed",
+      "name": "침대",
+      "x": 0.8,
+      "z": 3.8,
+      "width": 1.25,
+      "depth": 2,
+      "height": 0.48,
+      "rotation": 0,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    },
+    {
+      "id": "furniture-1",
+      "identity": "desk-1",
+      "kind": "desk",
+      "name": "책상",
+      "x": 3.55,
+      "z": 3.6,
+      "width": 1.2,
+      "depth": 0.6,
+      "height": 0.75,
+      "rotation": 90,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    },
+    {
+      "id": "furniture-2",
+      "identity": "chair-1",
+      "kind": "chair",
+      "name": "의자",
+      "x": 2.95,
+      "z": 3.6,
+      "width": 0.45,
+      "depth": 0.45,
+      "height": 0.8,
+      "rotation": 90,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    },
+    {
+      "id": "furniture-3",
+      "identity": "sink-1",
+      "kind": "sink",
+      "name": "싱크대",
+      "x": 1.85,
+      "z": 0.35,
+      "width": 1.1,
+      "depth": 0.6,
+      "height": 0.85,
+      "rotation": 0,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    },
+    {
+      "id": "furniture-4",
+      "identity": "fridge-1",
+      "kind": "fridge",
+      "name": "냉장고",
+      "x": 0.35,
+      "z": 1.4,
+      "width": 0.55,
+      "depth": 0.6,
+      "height": 1.5,
+      "rotation": 0,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    },
+    {
+      "id": "furniture-5",
+      "identity": "washer-1",
+      "kind": "washer",
+      "name": "세탁기",
+      "x": 3.6,
+      "z": 0.4,
+      "width": 0.6,
+      "depth": 0.6,
+      "height": 0.85,
+      "rotation": 0,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    },
+    {
+      "id": "furniture-6",
+      "identity": "toilet-1",
+      "kind": "toilet",
+      "name": "변기",
+      "x": 2.95,
+      "z": 0.45,
+      "width": 0.45,
+      "depth": 0.65,
+      "height": 0.65,
+      "rotation": 0,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    },
+    {
+      "id": "furniture-7",
+      "identity": "closet-1",
+      "kind": "wardrobe",
+      "name": "옷장",
+      "x": 0.4,
+      "z": 2.15,
+      "width": 0.65,
+      "depth": 0.65,
+      "height": 1.95,
+      "rotation": 0,
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "living",
+      "to": "bath",
+      "evidence": {
+        "source": "inferred",
+        "photos": [],
+        "reason": "체험용 예시 데이터이며 실제 업로드 사진을 분석한 결과가 아닙니다."
+      }
+    }
+  ],
+  "loft": null,
+  "assumptions": [
+    "20㎡의 직사각형 원룸을 가정한 체험용 공간입니다.",
+    "방 하나에 작은 화장실이 딸린 예시입니다. 주방과 현관을 별도 방으로 나누지 않습니다.",
+    "외곽 가로세로 비율과 절대 치수는 사진을 바탕으로 추정했습니다. 벽 두께는 면적 산정에서 생략했습니다.",
+    "체험용 예시의 구조·가구이며 실제 사진 분석 결과가 아닙니다.",
+    "사진에 보이는 벽·문·창문·가구는 구현하며, 위치·크기·방향은 필요에 따라 추정합니다. 문은 개구부만 표시하며 문짝·손잡이·열림 방향은 표시하지 않습니다.",
+    "전체 외곽은 입력 전용면적보다 최대 20% 작은 면적을 허용한 추정 경계입니다. 시점 이동은 확인된 공간 사이의 가상 이동이며 실제 출입 경로를 보장하지 않습니다."
+  ],
+  "area": 20,
+  "corrections": [
+    "전체 외곽 면적은 입력 전용면적의 80~100%를 허용하며, 범위를 벗어날 때만 면적을 보정합니다. 평면도·사진에서 확인한 공간만 표시하며, 나머지 영역에 이름이나 칸막이를 추가하지 않습니다.",
+    "외곽 밖 좌표·음수 크기·회전·천장 높이를 검증하고 유효 범위로 보정했습니다."
+  ]
+}
