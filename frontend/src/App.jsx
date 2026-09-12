@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import SpaceModal from './space/SpaceModal'
+import './recommend-map-actions.css'
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
 
@@ -222,6 +223,9 @@ function FocusSelectedProperty({ position }) {
 
 function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, onToggleCompare }) {
   const [spaceProperty, setSpaceProperty] = useState(null)
+  const ignoreSliderScroll = useRef(false)
+  const releaseScrollTimer = useRef(null)
+
   const markerPositions = properties.map((property, index) => {
     const earlierAtSameAddress = properties
       .slice(0, index)
@@ -231,29 +235,44 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
     return [property.latitude + offset, property.longitude + offset]
   })
 
-  const selectedIndex = Math.max(0, properties.findIndex((property) => property.id === selectedId))
+  const foundSelectedIndex = properties.findIndex((property) => property.id === selectedId)
+  const selectedIndex = foundSelectedIndex >= 0 ? foundSelectedIndex : 0
   const selectedPosition = markerPositions[selectedIndex]
 
-  useEffect(() => {
-    if (!selectedId) return
-    const frame = requestAnimationFrame(() => {
-      document.getElementById(`map-property-${selectedId}`)?.scrollIntoView({
-        behavior: 'smooth',
+  const centerSelectedCard = (propertyId, behavior = 'smooth') => {
+    if (!propertyId) return
+    ignoreSliderScroll.current = true
+    if (releaseScrollTimer.current) clearTimeout(releaseScrollTimer.current)
+
+    requestAnimationFrame(() => {
+      document.getElementById(`map-property-${propertyId}`)?.scrollIntoView({
+        behavior,
         block: 'nearest',
         inline: 'center',
       })
+      releaseScrollTimer.current = setTimeout(() => {
+        ignoreSliderScroll.current = false
+      }, behavior === 'smooth' ? 500 : 80)
     })
-    return () => cancelAnimationFrame(frame)
+  }
+
+  useEffect(() => {
+    centerSelectedCard(selectedId, 'auto')
+    return () => {
+      if (releaseScrollTimer.current) clearTimeout(releaseScrollTimer.current)
+    }
   }, [selectedId, properties.length])
 
   const selectAt = (index) => {
     const property = properties[index]
     if (!property) return
     onSelect(property.id)
-    document.getElementById(`map-property-${property.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    centerSelectedCard(property.id)
   }
 
   const syncMapToSlider = (event) => {
+    if (ignoreSliderScroll.current) return
+
     const slider = event.currentTarget
     const center = slider.scrollLeft + slider.clientWidth / 2
     let nearestIndex = 0
@@ -572,8 +591,24 @@ function App() {
     })
   }
 
-  const showPropertyOnMap = (property) => {
+  const showPropertyOnMap = async (property) => {
     setSelectedMapPropertyId(property.id)
+
+    if (!allProperties.length) {
+      setAllLoading(true)
+      setAllError('')
+      try {
+        const response = await fetch(`${API_URL}/api/properties`)
+        if (!response.ok) throw new Error('전체 매물 요청에 실패했습니다.')
+        const loadedProperties = await response.json()
+        setAllProperties(loadedProperties)
+      } catch (err) {
+        setAllError('전체 매물을 불러올 수 없습니다.')
+      } finally {
+        setAllLoading(false)
+      }
+    }
+
     setActiveTab('explore')
   }
 
