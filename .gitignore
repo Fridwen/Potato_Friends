@@ -1,10 +1,16 @@
+# env
 .env
 .env.*
-!.env.example
+!**/.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Node / Vite
 node_modules/
 dist/
-.venv/
-venv/
-__pycache__/
-*.py[cod]
-.DS_Store
+
+# Vercel
+.vercel/
