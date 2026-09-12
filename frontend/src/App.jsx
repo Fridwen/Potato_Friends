@@ -11,6 +11,7 @@ const API_URL = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replac
 
 const OPTION_LIST = ['풀옵션', '에어컨', '세탁기', '냉장고', '엘리베이터', '주차']
 const TRANSACTION_TYPES = ['전체', '월세', '전세']
+const THREE_D_PROPERTY_IDS = new Set([1, 10])
 
 function NumberField({ label, value, onChange, unit, min = 0, step = 1 }) {
   return (
@@ -234,6 +235,7 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
           const monthlyCost = property.monthly_cost ?? property.rent + property.maintenance
           const selected = property.id === selectedId
           const inCompare = compareItems.some((item) => item.id === property.id)
+          const has3D = THREE_D_PROPERTY_IDS.has(property.id)
 
           return (
             <article
@@ -278,13 +280,13 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
                   <button
                     type="button"
                     className="slider-space-button"
-                    disabled={property.id !== 1}
+                    disabled={!has3D}
                     onClick={(event) => {
                       event.stopPropagation()
-                      if (property.id === 1) setSpaceProperty(property)
+                      if (has3D) setSpaceProperty(property)
                     }}
                   >
-                    {property.id === 1 ? '3D 공간 보기' : '3D 구현 예정'}
+                    {has3D ? '3D 공간 보기' : '3D 구현 예정'}
                   </button>
                 </div>
               </div>
@@ -394,6 +396,7 @@ function CompareModal({ properties, onClose, onRemove }) {
 
 function PropertyCard({ property, index, recommended = false, selected = false, onToggleCompare, onShowOnMap }) {
   const [showSpace, setShowSpace] = useState(false)
+  const has3D = THREE_D_PROPERTY_IDS.has(property.id)
 
   return (
     <article className="property-card">
@@ -441,8 +444,8 @@ function PropertyCard({ property, index, recommended = false, selected = false, 
           {recommended && onShowOnMap && (
             <button type="button" className="compare-button" onClick={() => onShowOnMap(property)}>지도에서 보기</button>
           )}
-          <button type="button" className="floor-plan-button" disabled={property.id !== 1} onClick={() => property.id === 1 && setShowSpace(true)}>
-            {property.id === 1 ? '3D 공간 보기' : '3D 구현 예정'}
+          <button type="button" className="floor-plan-button" disabled={!has3D} onClick={() => has3D && setShowSpace(true)}>
+            {has3D ? '3D 공간 보기' : '3D 구현 예정'}
           </button>
           <button type="button" className={selected ? 'compare-button selected' : 'compare-button'} onClick={() => onToggleCompare(property)}>
             {selected ? '비교함에서 빼기' : '비교함에 담기'}
