@@ -287,7 +287,8 @@ button {
 }
 
 .input-wrap input {
-  width: 100%;
+  flex: 1 1 0;
+  width: 0;
   min-width: 0;
   border: 0;
   outline: 0;
@@ -295,10 +296,19 @@ button {
   background: transparent;
   font-weight: 800;
   color: var(--ink);
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.input-wrap input::-webkit-inner-spin-button,
+.input-wrap input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
 }
 
 .input-wrap b {
-  padding-right: 14px;
+  flex: 0 0 auto;
+  padding: 0 14px 0 8px;
   color: var(--muted);
   white-space: nowrap;
   font-size: 13px;
