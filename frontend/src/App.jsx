@@ -3,11 +3,8 @@ import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import SpaceModal from './space/SpaceModal'
-<<<<<<< HEAD
 import './recommend-map-actions.css'
-=======
 import Hero from './Hero'
->>>>>>> color
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
 
@@ -352,7 +349,7 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
           )
         })}
       </div>
-      <button type="button" className="map-slide-arrow next" onClick={() => selectAt((selectedIndex + 1) % properties.length)} aria-label="다음 매물">›</button>
+      <button type="button" className="map-slide-arrow next" onClick={() => selectAt((selectedIndex + 1 + properties.length) % properties.length)} aria-label="다음 매물">›</button>
       <span className="map-slider-count">{selectedIndex + 1} / {properties.length}</span>
       {spaceProperty && <SpaceModal property={spaceProperty} onClose={() => setSpaceProperty(null)} />}
     </div>
