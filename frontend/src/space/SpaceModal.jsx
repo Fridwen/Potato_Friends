@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { displayZones } from './space'
 import roomOneSpace from './data/room-1.json'
+import roomTenSpace from './data/room-10.json'
 import './space.css'
 import './three-d-only.css'
 
@@ -10,8 +11,12 @@ const results = new Map()
 export const getSpaceResult = (id) => results.get(id)
 
 export default function SpaceModal({ property, onClose }) {
-  const space = roomOneSpace
+  const space = property.id === 10 ? roomTenSpace : roomOneSpace
   const [active, setActive] = useState(displayZones(space)[0]?.id || '')
+
+  useEffect(() => {
+    setActive(displayZones(space)[0]?.id || '')
+  }, [space])
 
   useEffect(() => {
     results.set(property.id, { space, images: property.images || [], names: [], localUrls: [] })
