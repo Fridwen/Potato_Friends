@@ -1,0 +1,26 @@
+.property-actions {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.property-actions > button {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 6px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .property-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .property-actions > button {
+    padding: 9px 3px;
+    font-size: 11px;
+  }
+}
