@@ -653,8 +653,8 @@ function App() {
             <div className="section-title">
               <span>1</span>
               <div>
-                <h2>예산과 기본 조건</h2>
-                <p>원하는 조건을 먼저 입력해 주세요.</p>
+                <h2>예산과 기본 조건 입력하기</h2>
+                <p>생각해 둔 예산과 원하는 자취방의 조건을 입력해 주세요.</p>
               </div>
             </div>
 
@@ -682,8 +682,8 @@ function App() {
             <div className="section-title">
               <span>2</span>
               <div>
-                <h2>필수 옵션</h2>
-                <p>반드시 있었으면 하는 옵션만 선택하세요.</p>
+                <h2>필수 옵션 선택하기</h2>
+                <p>자취방에 꼭 필요한 옵션을 선택해 주세요.</p>
               </div>
             </div>
             <div className="option-list">
@@ -700,7 +700,7 @@ function App() {
             <div className="section-title">
               <span>3</span>
               <div>
-                <h2>무엇이 더 중요한가요?</h2>
+                <h2>나에게 중요한 조건 정하기</h2>
                 <p>슬라이더에 따라 추천 순위가 달라집니다.</p>
               </div>
             </div>
