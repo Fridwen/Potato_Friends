@@ -139,6 +139,18 @@ button {
   font-weight: 800;
 }
 
+.range-inputs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+}
+
+.range-separator {
+  color: #9aa5b8;
+  font-weight: 900;
+}
+
 .input-wrap {
   display: flex;
   align-items: center;

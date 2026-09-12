@@ -290,10 +290,13 @@ PROPERTIES = [{'id': 3,
 
 
 class RecommendRequest(BaseModel):
+    min_deposit: int = Field(ge=0)
     max_deposit: int = Field(ge=0)
+    min_rent: int = Field(ge=0)
     max_rent: int = Field(ge=0)
     max_maintenance: int = Field(ge=0)
     min_area: float = Field(ge=0)
+    max_area: float = Field(ge=0)
     max_walk_time: int = Field(ge=1)
     required_options: List[str] = Field(default_factory=list)
     price_weight: int = Field(default=50, ge=0)
@@ -365,13 +368,13 @@ def recommend(req: RecommendRequest):
     matched = []
 
     for item in PROPERTIES:
-        if item["deposit"] > req.max_deposit:
+        if item["deposit"] < req.min_deposit or item["deposit"] > req.max_deposit:
             continue
-        if item["rent"] > req.max_rent:
+        if item["rent"] < req.min_rent or item["rent"] > req.max_rent:
             continue
         if item["maintenance"] > req.max_maintenance:
             continue
-        if item["area"] < req.min_area:
+        if item["area"] < req.min_area or item["area"] > req.max_area:
             continue
         if item["walk_time"] > req.max_walk_time:
             continue
