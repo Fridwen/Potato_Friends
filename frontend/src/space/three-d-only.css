@@ -1,0 +1,10 @@
+.floor-plan-button:not(:disabled),
+.slider-space-button:not(:disabled) {
+  font-size: 0;
+}
+
+.floor-plan-button:not(:disabled)::after,
+.slider-space-button:not(:disabled)::after {
+  content: '3D 공간 보기';
+  font-size: 12px;
+}
