@@ -37,8 +37,8 @@ export default function Hero() {
         ))}
       </div>
       <span className="badge">자취방 한눈에 비교하기 🔍</span>
-      <h1>지금, 나에게 딱 맞는 자취방 찾기!</h1>
-      <p>예산부터 위치, 방 크기까지 한눈에 비교하고 마음에 드는 자취방을 찾아보세요.</p>
+      <h1>Roomio</h1>
+      <p><strong>지금, 나에게 딱 맞는 자취방 찾기!</strong><br />예산부터 위치, 방 크기까지 한눈에 비교하고 마음에 드는 자취방을 찾아보세요.</p>
       <div className="hero-playback" role="group" aria-label="배경 사진 전환">
         {PHOTOS.map((src, index) => (
           <button
