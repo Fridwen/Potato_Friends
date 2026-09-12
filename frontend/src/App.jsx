@@ -62,7 +62,6 @@ function WeightSlider({ label, value, onChange }) {
   )
 }
 
-
 function PropertyImageCarousel({ property }) {
   const [current, setCurrent] = useState(0)
   const images = property.images?.length ? property.images : []
@@ -235,6 +234,18 @@ function PropertyMapExplorer({ properties, selectedId, onSelect, compareItems, o
   const selectedIndex = Math.max(0, properties.findIndex((property) => property.id === selectedId))
   const selectedPosition = markerPositions[selectedIndex]
 
+  useEffect(() => {
+    if (!selectedId) return
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(`map-property-${selectedId}`)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center',
+      })
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [selectedId, properties.length])
+
   const selectAt = (index) => {
     const property = properties[index]
     if (!property) return
@@ -406,7 +417,7 @@ function CompareModal({ properties, onClose, onRemove }) {
   )
 }
 
-function PropertyCard({ property, index, recommended = false, selected = false, onToggleCompare }) {
+function PropertyCard({ property, index, recommended = false, selected = false, onToggleCompare, onShowOnMap }) {
   const monthlyCost = property.monthly_cost ?? property.rent + property.maintenance
   const [showSpace, setShowSpace] = useState(false)
 
@@ -457,6 +468,11 @@ function PropertyCard({ property, index, recommended = false, selected = false, 
         </div>
 
         <div className="property-actions">
+          {recommended && onShowOnMap && (
+            <button type="button" className="compare-button" onClick={() => onShowOnMap(property)}>
+              지도에서 보기
+            </button>
+          )}
           <button type="button" className="floor-plan-button" disabled={property.id !== 1} onClick={() => property.id === 1 && setShowSpace(true)}>
             {property.id === 1 ? '평면도 · 3D 보기' : '3D 구현 예정'}
           </button>
@@ -554,6 +570,11 @@ function App() {
       setCompareMessage('')
       return [...current, property]
     })
+  }
+
+  const showPropertyOnMap = (property) => {
+    setSelectedMapPropertyId(property.id)
+    setActiveTab('explore')
   }
 
   const removeCompareItem = (id) => {
@@ -711,6 +732,7 @@ function App() {
                 recommended
                 selected={compareItems.some((item) => item.id === property.id)}
                 onToggleCompare={toggleCompare}
+                onShowOnMap={showPropertyOnMap}
               />
             ))}
           </div>
