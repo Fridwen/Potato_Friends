@@ -37,8 +37,10 @@ export default function SpaceModal({ property, onClose }) {
         aria-label={`${property.name} 3D 공간 보기`}
         onMouseDown={(event) => event.stopPropagation()}
       >
-        <button className="modal-close" onClick={onClose} aria-label="3D 공간 보기 닫기">×</button>
-        <span className="preset-badge">3D 모델 보기</span>
+        <div className="preset-modal-header">
+          <span className="preset-badge">3D 모델 보기</span>
+          <button className="modal-close" onClick={onClose} aria-label="3D 공간 보기 닫기">×</button>
+        </div>
         <h2>{property.name} · 3D 공간 보기</h2>
         <p className="preset-summary">전용 {property.area}㎡ · {property.room_type} · 방 {property.rooms ?? 1}개</p>
         <Suspense fallback={<p>3D 모델 불러오는 중…</p>}>

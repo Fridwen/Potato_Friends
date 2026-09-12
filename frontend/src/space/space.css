@@ -264,7 +264,23 @@
 .space-modal .room-view .segmented button.selected { background:var(--accent-soft); }
 
 .preset-space-modal h2 {
-  margin: 12px 48px 8px 0;
+  margin: 12px 0 8px;
+}
+.preset-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.space-modal .preset-modal-header .modal-close {
+  position: static;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  line-height: 1;
 }
 .preset-badge {
   display: inline-flex;
