@@ -290,6 +290,7 @@ PROPERTIES = [{'id': 3,
 
 
 class RecommendRequest(BaseModel):
+    transaction_type: str = "월세"
     min_deposit: int = Field(ge=0)
     max_deposit: int = Field(ge=0)
     min_rent: int = Field(ge=0)
@@ -368,6 +369,8 @@ def recommend(req: RecommendRequest):
     matched = []
 
     for item in PROPERTIES:
+        if req.transaction_type != "전체" and item["transaction_type"] != req.transaction_type:
+            continue
         if item["deposit"] < req.min_deposit or item["deposit"] > req.max_deposit:
             continue
         if item["rent"] < req.min_rent or item["rent"] > req.max_rent:

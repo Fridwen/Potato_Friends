@@ -7,6 +7,7 @@ import SpaceModal from './space/SpaceModal'
 const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '')
 
 const OPTION_LIST = ['풀옵션', '에어컨', '세탁기', '냉장고', '엘리베이터', '주차']
+const TRANSACTION_TYPES = ['전체', '월세', '전세']
 
 function NumberField({ label, value, onChange, unit, min = 0, step = 1 }) {
   return (
@@ -475,6 +476,7 @@ function PropertyCard({ property, index, recommended = false, selected = false, 
 
 function App() {
   const [form, setForm] = useState({
+    transaction_type: '월세',
     min_deposit: 0,
     max_deposit: 1000,
     min_rent: 0,
@@ -617,6 +619,22 @@ function App() {
             <div>
               <h2>예산과 기본 조건</h2>
               <p>원하는 조건을 먼저 입력해 주세요.</p>
+            </div>
+          </div>
+
+          <div className="transaction-filter" role="group" aria-label="거래 유형 선택">
+            <strong>거래 유형</strong>
+            <div className="option-list">
+              {TRANSACTION_TYPES.map((type) => (
+                <button
+                  type="button"
+                  key={type}
+                  className={form.transaction_type === type ? 'option active' : 'option'}
+                  onClick={() => update('transaction_type', type)}
+                >
+                  {type}
+                </button>
+              ))}
             </div>
           </div>
 
